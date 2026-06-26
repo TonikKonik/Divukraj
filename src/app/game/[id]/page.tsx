@@ -2,6 +2,7 @@ import { auth } from "@/auth"
 import { db } from "@/lib/db"
 import { redirect, notFound } from "next/navigation"
 import GameWaitingRoom from "./GameWaitingRoom"
+import GameBoard from "./GameBoard"
 
 export default async function GamePage({
   params,
@@ -26,8 +27,12 @@ export default async function GamePage({
 
   if (!game) notFound()
 
-  const isPlayer = game.players.some(p => p.userId === session.user.id)
+  const isPlayer = game.players.some((p) => p.userId === session.user.id)
   if (!isPlayer) redirect("/lobby")
 
-  return <GameWaitingRoom game={game} currentUserId={session.user.id} />
+  if (game.status === "LOBBY") {
+    return <GameWaitingRoom game={game} currentUserId={session.user.id} />
+  }
+
+  return <GameBoard gameId={id} currentUserId={session.user.id} />
 }
