@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Divukraj – Design Preview</title>
+  <style>
+    :root {
+      --forest-darkest: #0f1a0f;
+      --forest-dark: #1a3a1a;
+      --forest-mid: #2d5a27;
+      --forest-light: #4a8c3f;
+      --bark-dark: #3d2b1f;
+      --bark-mid: #6b4423;
+      --bark-light: #a07850;
+      --parchment: #f5e8c8;
+      --parchment-dark: #ddc98a;
+      --cream: #faf3e0;
+
+      --spring: #7dbd6e;
+      --summer: #2e7d32;
+      --autumn: #e65100;
+      --winter: #4a6fa5;
+
+      --twig: #7b3f00;
+      --resin: #c8960c;
+      --pebble: #757575;
+      --berry: #b71c1c;
+      --points-gold: #f9a825;
+
+      --p1: #c62828;
+      --p2: #1565c0;
+      --p3: #2e7d32;
+      --p4: #e65100;
+
+      --card-radius: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--forest-darkest);
+      color: var(--parchment);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      user-select: none;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #0f1a0f 0%, #1e3c1e 40%, #1a3010 100%);
+      border-bottom: 2px solid var(--bark-mid);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .game-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: var(--parchment);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.7);
+      font-variant: small-caps;
+    }
+    .game-title span { color: var(--parchment-dark); }
+
+    .season-track {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .season-pip {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800;
+      border: 2px solid transparent;
+      opacity: 0.4;
+      transition: all .2s;
+      letter-spacing: 0;
+    }
+    .season-pip.active { opacity: 1; border-color: white; transform: scale(1.15); box-shadow: 0 0 10px currentColor; }
+    .season-pip.done   { opacity: 0.6; }
+    .s-jaro   { background: var(--spring); color: #0a2a0a; }
+    .s-leto   { background: var(--summer); color: #e0ffe0; }
+    .s-podzim { background: var(--autumn); color: #fff3e0; }
+    .s-zima   { background: var(--winter); color: #e8eaf6; }
+
+    .season-label {
+      font-size: 12px; font-weight: 600;
+      margin-left: 8px;
+      color: var(--spring);
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 12px;
+    }
+    .on-turn { font-weight: 700; font-size: 14px; color: var(--parchment); }
+    .turn-sub { opacity: 0.55; font-size: 11px; margin-top: 2px; }
+
+    /* ── LAYOUT ── */
+    .game-wrap {
+      display: grid;
+      grid-template-columns: 210px 1fr 170px;
+      grid-template-rows: auto auto auto;
+      grid-template-areas:
+        "tree board players"
+        "city city  players"
+        "hand hand  hand";
+      gap: 8px;
+      padding: 10px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    .panel-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      opacity: 0.5;
+      margin-bottom: 7px;
+    }
+
+    /* ── EVER TREE ── */
+    .tree-panel {
+      grid-area: tree;
+      background: radial-gradient(ellipse at top, #223c22 0%, #142014 100%);
+      border: 2px solid var(--bark-mid);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .tree-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .branch {
+      background: rgba(107,68,35,.25);
+      border: 1px solid var(--bark-light);
+      border-radius: 18px;
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 3px 0;
+    }
+    .branch-podzim { width: 80%; }
+    .branch-leto   { width: 92%; }
+    .branch-jaro   { width: 100%; }
+
+    .branch-label {
+      font-size: 10px; font-weight: 700;
+    }
+    .bl-jaro   { color: var(--spring); }
+    .bl-leto   { color: #81c784; }
+    .bl-podzim { color: #ffb74d; }
+
+    .workers-row { display: flex; gap: 3px; }
+
+    .worker {
+      width: 17px; height: 17px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 800;
+    }
+    .w-empty { opacity: .2; background: transparent; }
+    .w-p1 { background: var(--p1); }
+    .w-p2 { background: var(--p2); }
+    .w-p3 { background: var(--p3); }
+    .w-p4 { background: var(--p4); }
+
+    .trunk-seg {
+      width: 5px; background: var(--bark-mid);
+      border-radius: 2px;
+    }
+
+    /* Forest locations */
+    .forest-loc {
+      background: rgba(20,40,18,.6);
+      border: 1px solid var(--forest-light);
+      border-radius: 8px;
+      padding: 7px 9px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .forest-loc:hover { border-color: var(--spring); }
+    .loc-name { font-size: 11px; font-weight: 700; color: var(--spring); margin-bottom: 2px; }
+    .loc-desc { font-size: 9px; opacity: .75; margin-bottom: 4px; }
+    .loc-slots { display: flex; gap: 3px; }
+    .loc-slot {
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255,255,255,.25);
+    }
+    .loc-slot.occ-p1 { background: var(--p1); border-color: transparent; }
+    .loc-slot.occ-p2 { background: var(--p2); border-color: transparent; }
+
+    /* ── BOARD (center) ── */
+    .board-panel { grid-area: board; display: flex; flex-direction: column; gap: 8px; }
+
+    /* Meadow */
+    .meadow {
+      background: linear-gradient(160deg, #1a3418 0%, #1e3c1c 100%);
+      border: 2px solid var(--forest-light);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .meadow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      border-radius: var(--card-radius);
+      border: 1.5px solid rgba(255,255,255,.18);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s, border-color .15s;
+      display: flex;
+      flex-direction: column;
+      font-size: 10px;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 10px 24px rgba(0,0,0,.6);
+      border-color: rgba(255,255,255,.7);
+      z-index: 20;
+    }
+    .card.critter      { background: linear-gradient(160deg, #fff8e1 0%, #ffe082 100%); color: #3e2723; }
+    .card.construction { background: linear-gradient(160deg, #ede7f6 0%, #b39ddb 100%); color: #1a237e; }
+    .card.unique       { background: linear-gradient(160deg, #fce4ec 0%, #f48fb1 100%); color: #880e4f; }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 5px 5px 0;
+    }
+    .c-icon { font-size: 13px; line-height: 1; }
+    .c-cost { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; max-width: 52px; }
+
+    .pip {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7px; font-weight: 800; color: #fff;
+    }
+    .pip-v { background: var(--twig); }
+    .pip-p { background: var(--resin); color: #333; }
+    .pip-k { background: var(--pebble); }
+    .pip-b { background: var(--berry); }
+
+    .card-art {
+      margin: 3px 5px;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      flex: 1;
+      min-height: 44px;
+    }
+    .card.critter .card-art      { background: linear-gradient(135deg, #ffe082 0%, #ffb300 100%); }
+    .card.construction .card-art { background: linear-gradient(135deg, #cfd8dc 0%, #90a4ae 100%); }
+    .card.unique .card-art       { background: linear-gradient(135deg, #f8bbd0 0%, #e91e63 30%, #880e4f 100%); }
+
+    .card-name {
+      text-align: center;
+      font-weight: 800;
+      font-size: 9px;
+      padding: 2px 4px;
+      line-height: 1.2;
+    }
+    .card-sep { height: 1px; background: rgba(0,0,0,.15); margin: 0 5px; }
+    .card-fx {
+      font-size: 8px;
+      padding: 2px 5px;
+      line-height: 1.35;
+      opacity: .8;
+      min-height: 22px;
+    }
+    .card-foot {
+      display: flex; justify-content: flex-end;
+      padding: 2px 5px 4px;
+    }
+    .pts {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--points-gold);
+      color: #333; font-weight: 800; font-size: 10px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid #c77800;
+    }
+
+    /* Basic locations row */
+    .basic-locs {
+      background: rgba(0,0,0,.25);
+      border: 1px solid var(--bark-mid);
+      border-radius: 10px;
+      padding: 9px 12px;
+    }
+    .basic-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .bloc {
+      background: linear-gradient(160deg, #223420, #1a2c18);
+      border: 1px solid var(--forest-light);
+      border-radius: 8px;
+      padding: 6px 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .bloc:hover { border-color: var(--spring); }
+    .bloc-name { font-size: 8px; font-weight: 700; color: var(--spring); margin-bottom: 3px; }
+    .bloc-reward { display: flex; gap: 2px; justify-content: center; margin-bottom: 3px; }
+    .bloc-slots { display: flex; gap: 2px; justify-content: center; }
+    .bslot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255,255,255,.2);
+    }
+    .bslot.occ-p1 { background: var(--p1); border-color: transparent; }
+    .bslot.occ-p2 { background: var(--p2); border-color: transparent; }
+
+    /* ── PLAYERS PANEL ── */
+    .players-panel {
+      grid-area: players;
+      display: flex; flex-direction: column; gap: 7px;
+    }
+
+    .pcard {
+      background: linear-gradient(160deg, #1a2e1a 0%, #142012 100%);
+      border: 2px solid var(--bark-mid);
+      border-radius: 10px;
+      padding: 9px 10px;
+      position: relative;
+    }
+    .pcard.active {
+      border-color: var(--points-gold);
+      box-shadow: 0 0 14px rgba(249,168,37,.25);
+    }
+
+    .p-header {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 6px;
+    }
+    .p-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .p-name { font-size: 12px; font-weight: 700; }
+    .p-turn-tag {
+      font-size: 8px; opacity: .65; font-weight: 400;
+    }
+
+    .p-score {
+      position: absolute; top: 7px; right: 9px;
+      background: var(--points-gold); color: #333;
+      font-weight: 900; font-size: 13px;
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #c77800;
+    }
+
+    .p-res {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 3px; margin-bottom: 5px;
+    }
+    .p-res-item {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600;
+    }
+    .p-res-item .pip { flex-shrink: 0; }
+
+    .p-info {
+      font-size: 9px; opacity: .55;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 4px; margin-top: 2px;
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+
+    /* ── CITY ── */
+    .city-panel {
+      grid-area: city;
+      background: linear-gradient(160deg, #141e14 0%, #1a2a18 100%);
+      border: 2px solid var(--bark-mid);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .city-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+      gap: 6px;
+      min-height: 110px;
+    }
+    .empty-slot {
+      aspect-ratio: 5/7;
+      border: 1.5px dashed rgba(255,255,255,.1);
+      border-radius: var(--card-radius);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; opacity: .25;
+    }
+
+    /* ── HAND ── */
+    .hand-panel {
+      grid-area: hand;
+      background: linear-gradient(160deg, #0e180e 0%, #141e12 100%);
+      border: 2px solid var(--bark-mid);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .hand-top {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 8px;
+    }
+    .res-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .res-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 14px; font-weight: 700;
+    }
+    .res-item .pip { width: 20px; height: 20px; font-size: 10px; }
+
+    .res-divider { width: 1px; height: 20px; background: rgba(255,255,255,.15); }
+
+    .score-display {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 14px; font-weight: 700; color: var(--points-gold);
+    }
+
+    .actions { display: flex; gap: 7px; align-items: center; }
+    .btn {
+      border: none; border-radius: 20px;
+      padding: 7px 15px; font-size: 12px; font-weight: 700;
+      cursor: pointer; transition: all .15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-green  { background: var(--forest-light); color: #fff; }
+    .btn-green:hover { background: #5dab51; }
+    .btn-ghost  { background: transparent; color: var(--parchment); border: 1px solid rgba(255,255,255,.3); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.7); }
+    .btn-season { background: linear-gradient(135deg, var(--autumn), #8d2e00); color: #fff; }
+    .btn-season:hover { filter: brightness(1.15); }
+
+    .hand-cards { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+    .hand-card  { flex-shrink: 0; width: 86px; }
+
+    ::-webkit-scrollbar { height: 4px; width: 4px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,.2); }
+    ::-webkit-scrollbar-thumb { background: var(--bark-mid); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="game-title">✦ <span>DIVU</span>KRAJ ✦</div>
+
+  <div class="season-track">
+    <div class="season-pip s-jaro done">JA</div>
+    <div class="season-pip s-leto active">LÉ</div>
+    <div class="season-pip s-podzim">PO</div>
+    <div class="season-pip s-zima">ZI</div>
+    <span class="season-label">▸ Léto</span>
+  </div>
+
+  <div class="header-right">
+    <div class="on-turn">Na tahu: Pavel</div>
+    <div class="turn-sub">Kolo 8 · 4 hráči · akce 3/3</div>
+  </div>
+</header>
+
+<!-- GAME -->
+<div class="game-wrap">
+
+  <!-- LEFT: EVER TREE -->
+  <aside class="tree-panel">
+    <div class="panel-title">🌳 Věčný strom</div>
+
+    <div class="tree-body">
+      <div class="branch branch-podzim">
+        <span class="branch-label bl-podzim">Podzim</span>
+        <div class="workers-row">
+          <div class="worker w-empty"></div>
+          <div class="worker w-empty"></div>
+          <div class="worker w-empty"></div>
+        </div>
+      </div>
+      <div class="trunk-seg" style="height:10px;margin:2px 0"></div>
+      <div class="branch branch-leto">
+        <span class="branch-label bl-leto">Léto</span>
+        <div class="workers-row">
+          <div class="worker w-p2">J</div>
+          <div class="worker w-empty"></div>
+          <div class="worker w-empty"></div>
+          <div class="worker w-empty"></div>
+        </div>
+      </div>
+      <div class="trunk-seg" style="height:14px;margin:2px 0"></div>
+      <div class="branch branch-jaro">
+        <span class="branch-label bl-jaro">Jaro</span>
+        <div class="workers-row">
+          <div class="worker w-p1">P</div>
+          <div class="worker w-empty"></div>
+          <div class="worker w-empty"></div>
+          <div class="worker w-empty"></div>
+        </div>
+      </div>
+      <div class="trunk-seg" style="height:20px;margin:2px 0"></div>
+    </div>
+
+    <div class="panel-title">🌿 Lesní lokace</div>
+
+    <div class="forest-loc">
+      <div class="loc-name">Mlžná mýtina</div>
+      <div class="loc-desc">Získej 1 bobuli + 1 větev</div>
+      <div class="loc-slots">
+        <div class="loc-slot occ-p1"></div>
+        <div class="loc-slot"></div>
+      </div>
+    </div>
+    <div class="forest-loc">
+      <div class="loc-name">Bažinná cesta</div>
+      <div class="loc-desc">Vezmi 2 karty z Louky</div>
+      <div class="loc-slots">
+        <div class="loc-slot"></div>
+        <div class="loc-slot"></div>
+      </div>
+    </div>
+    <div class="forest-loc">
+      <div class="loc-name">Starý dub</div>
+      <div class="loc-desc">Získej 1 pryskyřici + 1 kámen</div>
+      <div class="loc-slots">
+        <div class="loc-slot occ-p2"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER: BOARD -->
+  <main class="board-panel">
+
+    <!-- MEADOW -->
+    <div class="meadow">
+      <div class="panel-title">🌸 Louka – 8 karet dostupných všem</div>
+      <div class="meadow-grid">
+
+        <div class="card critter" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div></div>
+          <div class="card-art">🦔</div>
+          <div class="card-name">Ježek doručovatel</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Zahraj: nakresli 2 karty.</div>
+          <div class="card-foot"><div class="pts">1</div></div>
+        </div>
+
+        <div class="card construction" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-v">v</div><div class="pip pip-v">v</div><div class="pip pip-p">p</div></div></div>
+          <div class="card-art">🏡</div>
+          <div class="card-name">Útulná chýše</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Sezón: získej 1 větev.</div>
+          <div class="card-foot"><div class="pts">2</div></div>
+        </div>
+
+        <div class="card critter" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div></div>
+          <div class="card-art">🦊</div>
+          <div class="card-name">Lišák obchodník</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Vyměň 1 surovinu za jinou.</div>
+          <div class="card-foot"><div class="pts">2</div></div>
+        </div>
+
+        <div class="card construction" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-v">v</div><div class="pip pip-p">p</div><div class="pip pip-k">k</div></div></div>
+          <div class="card-art">⛏️</div>
+          <div class="card-name">Kamenný lom</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Sezón: získej 1 kámen.</div>
+          <div class="card-foot"><div class="pts">2</div></div>
+        </div>
+
+        <div class="card critter" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div></div></div>
+          <div class="card-art">🐭</div>
+          <div class="card-name">Myší dělník</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Pošli na obsazené základní místo.</div>
+          <div class="card-foot"><div class="pts">1</div></div>
+        </div>
+
+        <div class="card construction" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-v">v</div><div class="pip pip-v">v</div><div class="pip pip-v">v</div></div></div>
+          <div class="card-art">🌿</div>
+          <div class="card-name">Lesní cesta</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Sniž cenu příští karty o 1.</div>
+          <div class="card-foot"><div class="pts">0</div></div>
+        </div>
+
+        <div class="card critter" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div><div class="pip pip-b">b</div><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div></div>
+          <div class="card-art">🐺</div>
+          <div class="card-name">Vlčí strážce</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Přidej 1 slot navíc do Města.</div>
+          <div class="card-foot"><div class="pts">3</div></div>
+        </div>
+
+        <div class="card construction" style="aspect-ratio:5/7">
+          <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-p">p</div><div class="pip pip-p">p</div><div class="pip pip-k">k</div><div class="pip pip-k">k</div></div></div>
+          <div class="card-art">🏰</div>
+          <div class="card-name">Radnice</div>
+          <div class="card-sep"></div>
+          <div class="card-fx">Sezón: +1 bod vítězství.</div>
+          <div class="card-foot"><div class="pts">4</div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BASIC LOCATIONS -->
+    <div class="basic-locs">
+      <div class="panel-title">📍 Základní lokace</div>
+      <div class="basic-row">
+
+        <div class="bloc">
+          <div class="bloc-name">Výrubisko</div>
+          <div class="bloc-reward"><div class="pip pip-v">v</div><div class="pip pip-v">v</div></div>
+          <div class="bloc-slots"><div class="bslot occ-p1"></div><div class="bslot"></div></div>
+        </div>
+
+        <div class="bloc">
+          <div class="bloc-name">Kůrovník</div>
+          <div class="bloc-reward"><div class="pip pip-p">p</div><div class="pip pip-p">p</div></div>
+          <div class="bloc-slots"><div class="bslot"></div><div class="bslot"></div></div>
+        </div>
+
+        <div class="bloc">
+          <div class="bloc-name">Žulový lom</div>
+          <div class="bloc-reward"><div class="pip pip-k">k</div><div class="pip pip-k">k</div></div>
+          <div class="bloc-slots"><div class="bslot occ-p2"></div></div>
+        </div>
+
+        <div class="bloc">
+          <div class="bloc-name">Borůvčí</div>
+          <div class="bloc-reward"><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div>
+          <div class="bloc-slots"><div class="bslot"></div><div class="bslot"></div></div>
+        </div>
+
+        <div class="bloc">
+          <div class="bloc-name">Pěstitelé</div>
+          <div class="bloc-reward"><div class="pip pip-v">v</div><div class="pip pip-p">p</div></div>
+          <div class="bloc-slots"><div class="bslot"></div></div>
+        </div>
+
+        <div class="bloc">
+          <div class="bloc-name">Sklizeň</div>
+          <div class="bloc-reward" style="font-size:8px;opacity:.7">dle staveb</div>
+          <div class="bloc-slots"><div class="bslot"></div></div>
+        </div>
+
+        <div class="bloc">
+          <div class="bloc-name">Louka +1k</div>
+          <div class="bloc-reward" style="font-size:8px;opacity:.7">karta + 1</div>
+          <div class="bloc-slots"><div class="bslot occ-p2"></div><div class="bslot"></div></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- RIGHT: PLAYERS -->
+  <aside class="players-panel">
+
+    <div class="pcard active">
+      <div class="p-header">
+        <div class="p-dot" style="background:var(--p1)"></div>
+        <span class="p-name">Pavel</span>
+        <span class="p-turn-tag">← na tahu</span>
+      </div>
+      <div class="p-res">
+        <div class="p-res-item"><div class="pip pip-v">v</div> 3</div>
+        <div class="p-res-item"><div class="pip pip-p">p</div> 2</div>
+        <div class="p-res-item"><div class="pip pip-k">k</div> 1</div>
+        <div class="p-res-item"><div class="pip pip-b">b</div> 4</div>
+      </div>
+      <div class="p-score">12</div>
+      <div class="p-info">
+        <span>🃏 5 karet</span>
+        <span>👷 2 dělníci</span>
+        <span>🏘️ 6/15</span>
+      </div>
+    </div>
+
+    <div class="pcard">
+      <div class="p-header">
+        <div class="p-dot" style="background:var(--p2)"></div>
+        <span class="p-name">Jana</span>
+      </div>
+      <div class="p-res">
+        <div class="p-res-item"><div class="pip pip-v">v</div> 1</div>
+        <div class="p-res-item"><div class="pip pip-p">p</div> 0</div>
+        <div class="p-res-item"><div class="pip pip-k">k</div> 3</div>
+        <div class="p-res-item"><div class="pip pip-b">b</div> 2</div>
+      </div>
+      <div class="p-score">9</div>
+      <div class="p-info"><span>🃏 3 karty</span><span>👷 3 dělníci</span><span>🏘️ 4/15</span></div>
+    </div>
+
+    <div class="pcard">
+      <div class="p-header">
+        <div class="p-dot" style="background:var(--p3)"></div>
+        <span class="p-name">Martin</span>
+      </div>
+      <div class="p-res">
+        <div class="p-res-item"><div class="pip pip-v">v</div> 5</div>
+        <div class="p-res-item"><div class="pip pip-p">p</div> 1</div>
+        <div class="p-res-item"><div class="pip pip-k">k</div> 0</div>
+        <div class="p-res-item"><div class="pip pip-b">b</div> 1</div>
+      </div>
+      <div class="p-score">15</div>
+      <div class="p-info"><span>🃏 6 karet</span><span>👷 1 dělník</span><span>🏘️ 8/15</span></div>
+    </div>
+
+    <div class="pcard">
+      <div class="p-header">
+        <div class="p-dot" style="background:var(--p4)"></div>
+        <span class="p-name">Tereza</span>
+      </div>
+      <div class="p-res">
+        <div class="p-res-item"><div class="pip pip-v">v</div> 0</div>
+        <div class="p-res-item"><div class="pip pip-p">p</div> 4</div>
+        <div class="p-res-item"><div class="pip pip-k">k</div> 2</div>
+        <div class="p-res-item"><div class="pip pip-b">b</div> 3</div>
+      </div>
+      <div class="p-score">11</div>
+      <div class="p-info"><span>🃏 4 karty</span><span>👷 2 dělníci</span><span>🏘️ 7/15</span></div>
+    </div>
+
+  </aside>
+
+  <!-- CITY -->
+  <section class="city-panel">
+    <div class="panel-title">🏘️ Pavlovo město — 6 / 15 karet</div>
+    <div class="city-grid">
+
+      <div class="card construction" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-v">v</div><div class="pip pip-p">p</div></div></div>
+        <div class="card-art" style="font-size:20px">🏕️</div>
+        <div class="card-name">Tábořiště</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Sídlo pro tvory bez domova.</div>
+        <div class="card-foot"><div class="pts">1</div></div>
+      </div>
+
+      <div class="card critter" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div></div>
+        <div class="card-art" style="font-size:20px">🦝</div>
+        <div class="card-name">Mýval stavitel</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Sniž cenu stavby o 1 větev.</div>
+        <div class="card-foot"><div class="pts">2</div></div>
+      </div>
+
+      <div class="card construction" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-k">k</div><div class="pip pip-k">k</div></div></div>
+        <div class="card-art" style="font-size:20px">🗼</div>
+        <div class="card-name">Strážní věž</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Sezón: +1 bod vítězství.</div>
+        <div class="card-foot"><div class="pts">3</div></div>
+      </div>
+
+      <div class="card critter" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div></div></div>
+        <div class="card-art" style="font-size:20px">🐿️</div>
+        <div class="card-name">Veverka sběratelka</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Drž až 10 surovin (místo 8).</div>
+        <div class="card-foot"><div class="pts">2</div></div>
+      </div>
+
+      <div class="card construction" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-p">p</div><div class="pip pip-v">v</div></div></div>
+        <div class="card-art" style="font-size:20px">🌾</div>
+        <div class="card-name">Sýpka</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Sezón: získej 1 bobuli.</div>
+        <div class="card-foot"><div class="pts">2</div></div>
+      </div>
+
+      <div class="card critter" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div></div>
+        <div class="card-art" style="font-size:20px">🦉</div>
+        <div class="card-name">Sova moudrá</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Vezmi 2 karty z Louky zdarma.</div>
+        <div class="card-foot"><div class="pts">4</div></div>
+      </div>
+
+      <div class="empty-slot">+</div>
+      <div class="empty-slot">+</div>
+      <div class="empty-slot">+</div>
+
+    </div>
+  </section>
+
+  <!-- HAND -->
+  <section class="hand-panel">
+    <div class="hand-top">
+      <div>
+        <div class="panel-title">🃏 Moje ruka (5 karet)</div>
+        <div class="res-bar">
+          <div class="res-item"><div class="pip pip-v">v</div><strong>3</strong></div>
+          <div class="res-item"><div class="pip pip-p">p</div><strong>2</strong></div>
+          <div class="res-item"><div class="pip pip-k">k</div><strong>1</strong></div>
+          <div class="res-item"><div class="pip pip-b">b</div><strong>4</strong></div>
+          <div class="res-divider"></div>
+          <div class="score-display">⭐ <strong>12</strong> bodů</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-green">Zahraj kartu</button>
+        <button class="btn btn-ghost">Pošli dělníka</button>
+        <button class="btn btn-season">🍂 Příchod sezóny</button>
+      </div>
+    </div>
+
+    <div class="hand-cards">
+
+      <div class="hand-card card critter" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div></div>
+        <div class="card-art" style="font-size:18px">🐇</div>
+        <div class="card-name">Králík zahradník</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Zahraj: +1 bobule.</div>
+        <div class="card-foot"><div class="pts">1</div></div>
+      </div>
+
+      <div class="hand-card card construction" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-v">v</div><div class="pip pip-v">v</div><div class="pip pip-v">v</div><div class="pip pip-p">p</div></div></div>
+        <div class="card-art" style="font-size:18px">🏗️</div>
+        <div class="card-name">Dílna</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Sniž cenu karet o 1 pryskyřici.</div>
+        <div class="card-foot"><div class="pts">3</div></div>
+      </div>
+
+      <div class="hand-card card critter" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div><div class="pip pip-b">b</div><div class="pip pip-b">b</div></div></div>
+        <div class="card-art" style="font-size:18px">🦫</div>
+        <div class="card-name">Bobr tesař</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Sniž cenu příští stavby o 2 větve.</div>
+        <div class="card-foot"><div class="pts">2</div></div>
+      </div>
+
+      <div class="hand-card card construction" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🏠</span><div class="c-cost"><div class="pip pip-p">p</div><div class="pip pip-k">k</div></div></div>
+        <div class="card-art" style="font-size:18px">🌉</div>
+        <div class="card-name">Kamenný most</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Sniž cenu 1 stavby o 1 kámen.</div>
+        <div class="card-foot"><div class="pts">2</div></div>
+      </div>
+
+      <div class="hand-card card critter" style="aspect-ratio:5/7">
+        <div class="card-head"><span class="c-icon">🐾</span><div class="c-cost"><div class="pip pip-b">b</div></div></div>
+        <div class="card-art" style="font-size:18px">🐛</div>
+        <div class="card-name">Housenka</div>
+        <div class="card-sep"></div>
+        <div class="card-fx">Zdarma do Města s Listoví.</div>
+        <div class="card-foot"><div class="pts">0</div></div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

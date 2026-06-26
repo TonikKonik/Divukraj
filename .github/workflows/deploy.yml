@@ -36,6 +36,10 @@ jobs:
             set -e
             cd /var/www/divukraj
             git pull origin main
+            if [ ! -f package.json ]; then
+              echo "No package.json – app not initialized yet, skipping deploy."
+              exit 0
+            fi
             npm ci
             [ -f prisma/schema.prisma ] && npx prisma generate && (npx prisma migrate deploy 2>/dev/null || npx prisma db push --accept-data-loss) || true
             npm run build
