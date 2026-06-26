@@ -1,0 +1,471 @@
+.board {
+  min-height: 100vh;
+  background: var(--forest-darkest, #0f1a0f);
+  color: var(--parchment, #f5e8c8);
+  font-family: serif;
+  padding-bottom: 4rem;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+  color: var(--parchment, #f5e8c8);
+}
+
+/* ── TOP BAR ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  background: rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+
+.seasonBadge {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #7dbd6e;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.turnBadge {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.turnBadge[data-myturn="true"] {
+  background: rgba(125, 189, 110, 0.2);
+  border-color: #7dbd6e;
+  color: #7dbd6e;
+}
+
+.deckBadge {
+  margin-left: auto;
+  font-size: 0.78rem;
+  opacity: 0.55;
+}
+
+/* ── OPPONENTS ── */
+.opponents {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.opponentCard {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.opponentName {
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-left: 3px solid #888;
+  padding-left: 0.5rem;
+}
+
+.opponentCity {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-height: 16px;
+}
+
+.cityPip {
+  width: 12px;
+  height: 18px;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+/* ── RESOURCES ── */
+.resources {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.resources b {
+  font-size: 1.05rem;
+}
+
+/* ── SECTIONS ── */
+.sectionTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.55;
+  margin: 0 0 0.6rem;
+}
+
+.subTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.dimText {
+  font-size: 0.78rem;
+  opacity: 0.4;
+  font-style: italic;
+}
+
+/* ── LOCATIONS ── */
+.locationsSection {
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.locations {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.location {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.locationName {
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.locationResource {
+  font-size: 1rem;
+}
+
+.locationDesc {
+  font-size: 0.7rem;
+  opacity: 0.55;
+}
+
+.locationWorkers {
+  margin-top: 0.3rem;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  min-height: 14px;
+}
+
+.workerToken {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+/* ── MEADOW ── */
+.meadowSection {
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ── CARD ROW ── */
+.cardRow {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* ── CARD ── */
+.card {
+  width: 115px;
+  min-height: 155px;
+  border-radius: 7px;
+  border: 2px solid #666;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+}
+
+.cardColor {
+  height: 5px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.cardName {
+  font-weight: 700;
+  font-size: 0.76rem;
+  padding: 0.35rem 0.45rem 0.1rem;
+  line-height: 1.25;
+}
+
+.cardMeta {
+  font-size: 0.65rem;
+  padding: 0 0.45rem;
+  opacity: 0.55;
+}
+
+.cardPoints {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  color: #ffd54f;
+}
+
+.cardCost {
+  font-size: 0.74rem;
+  padding: 0.1rem 0.45rem 0.35rem;
+}
+
+.cardEffect {
+  font-size: 0.64rem;
+  padding: 0.25rem 0.45rem 0.4rem;
+  opacity: 0.65;
+  line-height: 1.38;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: auto;
+}
+
+/* ── MY AREA ── */
+.myArea {
+  padding: 1rem 1.5rem;
+}
+
+.myWorkers {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0 0.25rem;
+  min-height: 1.5rem;
+}
+
+.workerLabel {
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.15rem 0.6rem;
+}
+
+.myTurnBadge {
+  color: #7dbd6e;
+  font-weight: 700;
+}
+
+.citySection {
+  margin-top: 0.5rem;
+}
+
+.handSection {
+  margin-top: 0.5rem;
+}
+
+/* ── SECTION WRAPPER ── */
+.section {
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ── CARD STATES ── */
+.cardHighlight {
+  border-color: #7dbd6e !important;
+  box-shadow: 0 0 0 2px rgba(125, 189, 110, 0.35);
+  transform: translateY(-4px);
+}
+
+.cardDisabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.cardDisabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.cardBtn {
+  margin: auto 0.45rem 0.45rem;
+  padding: 0.3rem 0;
+  background: rgba(125, 189, 110, 0.2);
+  border: 1px solid #7dbd6e;
+  border-radius: 4px;
+  color: #7dbd6e;
+  font-size: 0.68rem;
+  font-weight: 700;
+  cursor: pointer;
+  width: calc(100% - 0.9rem);
+  text-align: center;
+}
+
+.cardBtn:hover {
+  background: rgba(125, 189, 110, 0.35);
+}
+
+/* ── ACTION ERROR ── */
+.actionError {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 1.5rem;
+  padding: 0.5rem 0.9rem;
+  background: rgba(198, 40, 40, 0.15);
+  border: 1px solid rgba(198, 40, 40, 0.4);
+  border-radius: 6px;
+  font-size: 0.84rem;
+  color: #ef9a9a;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: #ef9a9a;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0 0.2rem;
+  opacity: 0.7;
+}
+
+.closeBtn:hover {
+  opacity: 1;
+}
+
+/* ── ACTION ROW ── */
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.6rem 0;
+  flex-wrap: wrap;
+}
+
+.seasonBtn {
+  padding: 0.3rem 0.9rem;
+  background: rgba(255, 213, 79, 0.12);
+  border: 1px solid rgba(255, 213, 79, 0.4);
+  border-radius: 20px;
+  color: #ffd54f;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.14s;
+}
+
+.seasonBtn:hover:not(:disabled) {
+  background: rgba(255, 213, 79, 0.22);
+}
+
+.seasonBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── LOCATION EXTRAS ── */
+.locationIcon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.locationGain {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  line-height: 1.3;
+}
+
+.locationActive {
+  cursor: pointer;
+  border-color: rgba(125, 189, 110, 0.5) !important;
+  background: rgba(125, 189, 110, 0.07) !important;
+}
+
+.locationActive:hover {
+  background: rgba(125, 189, 110, 0.13) !important;
+  border-color: #7dbd6e !important;
+}
+
+.locationCta {
+  font-size: 0.68rem;
+  color: #7dbd6e;
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+
+/* ── WORKER DOT ── */
+.workerDot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+}
+
+/* ── OPPONENT TURN DOT ── */
+.onTurnDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7dbd6e;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── MY TURN TAG ── */
+.myTurnTag {
+  color: #7dbd6e;
+  font-weight: 700;
+}
+
+/* ── CANCEL BUTTON ── */
+.cancelBtn {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.8);
+}
