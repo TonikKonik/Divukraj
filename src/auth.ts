@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { authConfig } from "./auth.config"
 import { db } from "@/lib/db"
 
 declare module "next-auth" {
@@ -8,15 +9,11 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT { id: string }
-}
-
 const ALLOWED_USERS = ["Tonda", "Patrik", "Andrea", "Jarda", "Irena"]
 const SHARED_PASSWORD = "Divukraj2026"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  session: { strategy: "jwt" },
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -40,14 +37,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  pages: { signIn: "/login" },
   callbacks: {
     jwt({ token, user }) {
-      if (user?.id) token.id = user.id
+      if (user?.id) token.sub = user.id
       return token
     },
     session({ session, token }) {
-      session.user.id = token.id
+      session.user.id = token.sub ?? ""
       return session
     },
   },
