@@ -23,6 +23,8 @@ jobs:
           script: |
             printf "DATABASE_URL=%s\nAUTH_SECRET=%s\n" \
               "$DB_URL" "$AUTH_SECRET" > /var/www/divukraj/.env.local
+            printf "DATABASE_URL=%s\n" \
+              "$DB_URL" > /var/www/divukraj/.env
             echo env written
 
       - name: Deploy
@@ -41,7 +43,7 @@ jobs:
               exit 0
             fi
             npm ci
-            [ -f prisma/schema.prisma ] && npx prisma generate && (npx prisma migrate deploy 2>/dev/null || npx prisma db push --accept-data-loss) || true
+            [ -f prisma/schema.prisma ] && npx prisma generate && npx prisma db push --accept-data-loss || true
             npm run build
             pm2 delete divukraj 2>/dev/null || true
             pm2 start pm2.config.js && pm2 save
