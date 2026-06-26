@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
+
 import styles from "./login.module.css"
 
 export default function LoginPage() {
@@ -66,8 +66,7 @@ export default function LoginPage() {
         </form>
 
         <p className={styles.link}>
-          Ještě nemáš účet?{" "}
-          <Link href="/register">Zaregistrovat se</Link>
+          Přístup jen pro pozvané hráče.
         </p>
       </div>
     </div>

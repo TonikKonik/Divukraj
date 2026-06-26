@@ -1,6 +1,5 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import bcrypt from "bcryptjs"
 import { db } from "@/lib/db"
 
 declare module "next-auth" {
@@ -12,6 +11,9 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT { id: string }
 }
+
+const ALLOWED_USERS = ["Tonda", "Patrik", "Andrea", "Jarda", "Irena"]
+const SHARED_PASSWORD = "Divukraj2026"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
@@ -25,12 +27,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const username = credentials?.username as string | undefined
         const password = credentials?.password as string | undefined
         if (!username || !password) return null
+        if (!ALLOWED_USERS.includes(username)) return null
+        if (password !== SHARED_PASSWORD) return null
 
-        const user = await db.user.findUnique({ where: { username } })
-        if (!user) return null
-
-        const valid = await bcrypt.compare(password, user.password)
-        if (!valid) return null
+        const user = await db.user.upsert({
+          where: { username },
+          create: { username },
+          update: {},
+        })
 
         return { id: user.id, name: user.username, email: null }
       },
