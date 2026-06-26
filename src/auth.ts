@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
+import { authConfig } from "./auth.config"
 import { db } from "@/lib/db"
 
 declare module "next-auth" {
@@ -8,15 +9,11 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT { id: string }
-}
-
 const ALLOWED_USERS = ["Tonda", "Patrik", "Andrea", "Jarda", "Irena"]
 const SHARED_PASSWORD = "Divukraj2026"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  session: { strategy: "jwt" },
+  ...authConfig,
   providers: [
     Credentials({
       credentials: {
@@ -24,30 +21,37 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Heslo", type: "password" },
       },
       async authorize(credentials) {
-        const username = credentials?.username as string | undefined
-        const password = credentials?.password as string | undefined
-        if (!username || !password) return null
-        if (!ALLOWED_USERS.includes(username)) return null
+        const usernameRaw = (credentials?.username as string | undefined)?.trim()
+        const password = (credentials?.password as string | undefined)?.trim()
+        if (!usernameRaw || !password) return null
+
+        const canonical = ALLOWED_USERS.find(
+          (u) => u.toLowerCase() === usernameRaw.toLowerCase()
+        )
+        if (!canonical) return null
         if (password !== SHARED_PASSWORD) return null
 
-        const user = await db.user.upsert({
-          where: { username },
-          create: { username },
-          update: {},
-        })
-
-        return { id: user.id, name: user.username, email: null }
+        try {
+          const user = await db.user.upsert({
+            where: { username: canonical },
+            create: { username: canonical },
+            update: {},
+          })
+          return { id: user.id, name: user.username, email: null }
+        } catch (e) {
+          console.error("[Auth] DB upsert failed:", e)
+          return null
+        }
       },
     }),
   ],
-  pages: { signIn: "/login" },
   callbacks: {
     jwt({ token, user }) {
-      if (user?.id) token.id = user.id
+      if (user?.id) token.sub = user.id
       return token
     },
     session({ session, token }) {
-      session.user.id = token.id
+      session.user.id = token.sub ?? ""
       return session
     },
   },

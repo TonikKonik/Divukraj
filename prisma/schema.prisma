@@ -23,9 +23,10 @@ model Game {
   maxPlayers Int        @default(4)
   createdAt  DateTime   @default(now())
 
-  host    User         @relation("GameHost", fields: [hostId], references: [id])
-  hostId  String
-  players GamePlayer[]
+  host      User         @relation("GameHost", fields: [hostId], references: [id])
+  hostId    String
+  players   GamePlayer[]
+  gameState GameState?
 }
 
 model GamePlayer {
@@ -42,6 +43,44 @@ model GamePlayer {
   @@unique([gameId, color])
 }
 
+model GameState {
+  id               String   @id @default(cuid())
+  gameId           String   @unique
+  game             Game     @relation(fields: [gameId], references: [id])
+  season           Season   @default(SPRING)
+  currentPlayerIdx Int      @default(0)
+  meadow           String[]
+  deck             String[]
+  discard          String[]
+
+  playerStates PlayerState[]
+  workers      WorkerPlacement[]
+}
+
+model PlayerState {
+  id          String    @id @default(cuid())
+  gameStateId String
+  gameState   GameState @relation(fields: [gameStateId], references: [id])
+  userId      String
+  twigs       Int       @default(0)
+  resin       Int       @default(0)
+  pebbles     Int       @default(0)
+  berries     Int       @default(0)
+  hand        String[]
+  city        String[]
+
+  @@unique([gameStateId, userId])
+}
+
+model WorkerPlacement {
+  id          String    @id @default(cuid())
+  gameStateId String
+  gameState   GameState @relation(fields: [gameStateId], references: [id])
+  userId      String
+  location    String
+  season      Season    @default(SPRING)
+}
+
 enum GameStatus {
   LOBBY
   PLAYING
@@ -53,4 +92,11 @@ enum PlayerColor {
   BLUE
   GREEN
   ORANGE
+}
+
+enum Season {
+  SPRING
+  SUMMER
+  AUTUMN
+  WINTER
 }
