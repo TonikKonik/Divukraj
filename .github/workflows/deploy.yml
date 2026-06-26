@@ -9,19 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if app exists
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
-            if [ ! -f /var/www/divukraj/package.json ]; then
-              echo "No package.json found – app not initialized yet, skipping deploy."
-              exit 0
-            fi
-
       - name: Write .env.local
         uses: appleboy/ssh-action@v1.0.3
         env:
@@ -49,6 +36,10 @@ jobs:
             set -e
             cd /var/www/divukraj
             git pull origin main
+            if [ ! -f package.json ]; then
+              echo "No package.json – app not initialized yet, skipping deploy."
+              exit 0
+            fi
             npm ci
             [ -f prisma/schema.prisma ] && npx prisma generate && (npx prisma migrate deploy 2>/dev/null || npx prisma db push --accept-data-loss) || true
             npm run build
