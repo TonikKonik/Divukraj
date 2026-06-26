@@ -1,0 +1,248 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(135deg, #0f1a0f 0%, #1e3c1e 40%, #1a3010 100%);
+  border-bottom: 2px solid var(--bark-mid);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: var(--parchment);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+  font-variant: small-caps;
+}
+
+.title span { color: var(--parchment-dark); }
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--spring);
+}
+
+.logoutBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--parchment);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.logoutBtn:hover { border-color: rgba(255, 255, 255, 0.6); }
+
+.main {
+  flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 28px 20px;
+  width: 100%;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.45;
+  margin-bottom: 12px;
+}
+
+.createBtn {
+  background: var(--forest-light);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 11px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.createBtn:hover {
+  background: #5dab51;
+  transform: translateY(-1px);
+}
+
+.createForm {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1.5px solid var(--bark-mid);
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: var(--parchment);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+  min-width: 200px;
+}
+
+.input:focus { border-color: var(--forest-light); }
+
+.select {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1.5px solid var(--bark-mid);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--parchment);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.btnGreen {
+  background: var(--forest-light);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btnGreen:hover:not(:disabled) { background: #5dab51; transform: translateY(-1px); }
+.btnGreen:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btnGhost {
+  background: transparent;
+  color: var(--parchment);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btnGhost:hover { border-color: rgba(255, 255, 255, 0.6); }
+
+.error {
+  color: var(--berry);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.gameCard {
+  background: linear-gradient(160deg, #1a3418 0%, #142012 100%);
+  border: 2px solid var(--bark-mid);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.15s;
+}
+
+.gameCard:hover { border-color: var(--bark-light); }
+
+.gameHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.gameName {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.gameStatus {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.gameHost {
+  font-size: 11px;
+  opacity: 0.5;
+}
+
+.players {
+  display: flex;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.playerChip {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: white;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+.playerChipEmpty {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255, 255, 255, 0.15);
+}
+
+.playerCount {
+  font-size: 11px;
+  opacity: 0.45;
+}
+
+.gameActions {
+  margin-top: 4px;
+}
+
+.unavailable {
+  font-size: 12px;
+  opacity: 0.45;
+  font-style: italic;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  opacity: 0.45;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  line-height: 1.7;
+}

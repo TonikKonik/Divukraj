@@ -1,0 +1,52 @@
+:root {
+  --forest-darkest: #0f1a0f;
+  --forest-dark: #1a3a1a;
+  --forest-mid: #2d5a27;
+  --forest-light: #4a8c3f;
+  --bark-dark: #3d2b1f;
+  --bark-mid: #6b4423;
+  --bark-light: #a07850;
+  --parchment: #f5e8c8;
+  --parchment-dark: #ddc98a;
+  --cream: #faf3e0;
+  --spring: #7dbd6e;
+  --summer: #2e7d32;
+  --autumn: #e65100;
+  --winter: #4a6fa5;
+  --twig: #7b3f00;
+  --resin: #c8960c;
+  --pebble: #757575;
+  --berry: #b71c1c;
+  --points-gold: #f9a825;
+  --p1: #c62828;
+  --p2: #1565c0;
+  --p3: #2e7d32;
+  --p4: #e65100;
+  --card-radius: 10px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--forest-darkest);
+  color: var(--parchment);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  user-select: none;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+::-webkit-scrollbar-thumb { background: var(--bark-mid); border-radius: 3px; }
