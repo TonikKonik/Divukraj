@@ -1,9 +1,8 @@
 .board {
   min-height: 100vh;
-  background: var(--forest-darkest, #0f1a0f);
-  color: var(--parchment, #f5e8c8);
-  font-family: serif;
-  padding-bottom: 4rem;
+  background: #0f1a0f;
+  color: #f5e8c8;
+  font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
 .centered {
@@ -13,459 +12,467 @@
   justify-content: center;
   min-height: 100vh;
   gap: 1rem;
-  color: var(--parchment, #f5e8c8);
+  color: #f5e8c8;
 }
 
-/* ── TOP BAR ── */
-.topBar {
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #0f1a0f 0%, #1e3c1e 40%, #1a3010 100%);
+  border-bottom: 2px solid #6b4423;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 0.6rem 1.5rem;
-  background: rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  justify-content: space-between;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.seasonBadge {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: #7dbd6e;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.gameTitle {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #f5e8c8;
+  text-shadow: 0 1px 8px rgba(0,0,0,.7);
+  font-variant: small-caps;
+  white-space: nowrap;
 }
+.gameTitle span { color: #ddc98a; }
 
-.turnBadge {
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.2rem 0.7rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.turnBadge[data-myturn="true"] {
-  background: rgba(125, 189, 110, 0.2);
-  border-color: #7dbd6e;
-  color: #7dbd6e;
-}
-
-.deckBadge {
-  margin-left: auto;
-  font-size: 0.78rem;
-  opacity: 0.55;
-}
-
-/* ── OPPONENTS ── */
-.opponents {
+.seasonTrack {
   display: flex;
-  gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  flex-wrap: wrap;
-}
-
-.opponentCard {
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 8px;
-  padding: 0.6rem 0.9rem;
-  min-width: 180px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.opponentName {
-  font-weight: 700;
-  font-size: 0.9rem;
-  border-left: 3px solid #888;
-  padding-left: 0.5rem;
-}
-
-.opponentCity {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  min-height: 16px;
-}
-
-.cityPip {
-  width: 12px;
-  height: 18px;
-  border-radius: 2px;
-  opacity: 0.8;
-}
-
-/* ── RESOURCES ── */
-.resources {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.9rem;
   align-items: center;
-  flex-wrap: wrap;
-}
-
-.resources b {
-  font-size: 1.05rem;
-}
-
-/* ── SECTIONS ── */
-.sectionTitle {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.55;
-  margin: 0 0 0.6rem;
-}
-
-.subTitle {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.5;
-  margin: 0.75rem 0 0.5rem;
-}
-
-.dimText {
-  font-size: 0.78rem;
-  opacity: 0.4;
-  font-style: italic;
-}
-
-/* ── LOCATIONS ── */
-.locationsSection {
-  padding: 0.9rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.locations {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-}
-
-.location {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 0.6rem 0.8rem;
-  min-width: 100px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.locationName {
-  font-weight: 700;
-  font-size: 0.8rem;
-}
-
-.locationResource {
-  font-size: 1rem;
-}
-
-.locationDesc {
-  font-size: 0.7rem;
-  opacity: 0.55;
-}
-
-.locationWorkers {
-  margin-top: 0.3rem;
-  display: flex;
   gap: 4px;
-  flex-wrap: wrap;
-  min-height: 14px;
 }
 
-.workerToken {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
+.seasonPip {
+  width: 32px; height: 32px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-}
-
-/* ── MEADOW ── */
-.meadowSection {
-  padding: 0.9rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-/* ── CARD ROW ── */
-.cardRow {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-
-/* ── CARD ── */
-.card {
-  width: 115px;
-  min-height: 155px;
-  border-radius: 7px;
-  border: 2px solid #666;
-  background: rgba(255, 255, 255, 0.05);
-  display: flex;
-  flex-direction: column;
-  cursor: default;
-  transition: transform 0.14s ease, box-shadow 0.14s ease;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
-}
-
-.cardColor {
-  height: 5px;
-  width: 100%;
-  flex-shrink: 0;
-}
-
-.cardName {
-  font-weight: 700;
-  font-size: 0.76rem;
-  padding: 0.35rem 0.45rem 0.1rem;
-  line-height: 1.25;
-}
-
-.cardMeta {
-  font-size: 0.65rem;
-  padding: 0 0.45rem;
-  opacity: 0.55;
-}
-
-.cardPoints {
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.15rem 0.45rem;
-  color: #ffd54f;
-}
-
-.cardCost {
-  font-size: 0.74rem;
-  padding: 0.1rem 0.45rem 0.35rem;
-}
-
-.cardEffect {
-  font-size: 0.64rem;
-  padding: 0.25rem 0.45rem 0.4rem;
-  opacity: 0.65;
-  line-height: 1.38;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin-top: auto;
-}
-
-/* ── MY AREA ── */
-.myArea {
-  padding: 1rem 1.5rem;
-}
-
-.myWorkers {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin: 0.5rem 0 0.25rem;
-  min-height: 1.5rem;
-}
-
-.workerLabel {
-  font-size: 0.8rem;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 0.15rem 0.6rem;
-}
-
-.myTurnBadge {
-  color: #7dbd6e;
-  font-weight: 700;
-}
-
-.citySection {
-  margin-top: 0.5rem;
-}
-
-.handSection {
-  margin-top: 0.5rem;
-}
-
-/* ── SECTION WRAPPER ── */
-.section {
-  padding: 0.9rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-/* ── CARD STATES ── */
-.cardHighlight {
-  border-color: #7dbd6e !important;
-  box-shadow: 0 0 0 2px rgba(125, 189, 110, 0.35);
-  transform: translateY(-4px);
-}
-
-.cardDisabled {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800;
+  border: 2px solid transparent;
   opacity: 0.4;
-  cursor: default;
+  transition: all .2s;
 }
+.seasonActive { opacity: 1 !important; border-color: white !important; transform: scale(1.15); box-shadow: 0 0 10px currentColor; }
+.seasonDone   { opacity: 0.65 !important; }
 
-.cardDisabled:hover {
-  transform: none;
-  box-shadow: none;
-}
+.seasonSpring { background: #7dbd6e; color: #0a2a0a; }
+.seasonSummer { background: #2e7d32; color: #e0ffe0; }
+.seasonAutumn { background: #e65100; color: #fff3e0; }
+.seasonWinter { background: #4a6fa5; color: #e8eaf6; }
 
-.cardBtn {
-  margin: auto 0.45rem 0.45rem;
-  padding: 0.3rem 0;
-  background: rgba(125, 189, 110, 0.2);
-  border: 1px solid #7dbd6e;
-  border-radius: 4px;
+.seasonLabel {
+  font-size: 12px; font-weight: 600;
+  margin-left: 8px;
   color: #7dbd6e;
-  font-size: 0.68rem;
-  font-weight: 700;
-  cursor: pointer;
-  width: calc(100% - 0.9rem);
-  text-align: center;
 }
 
-.cardBtn:hover {
-  background: rgba(125, 189, 110, 0.35);
-}
+.headerRight { text-align: right; font-size: 12px; }
+.onTurn { font-weight: 700; font-size: 14px; color: #f5e8c8; }
+.deckInfo { opacity: 0.5; font-size: 11px; margin-top: 2px; }
 
 /* ── ACTION ERROR ── */
 .actionError {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0.5rem 1.5rem;
-  padding: 0.5rem 0.9rem;
-  background: rgba(198, 40, 40, 0.15);
-  border: 1px solid rgba(198, 40, 40, 0.4);
+  margin: 6px 10px;
+  padding: 7px 12px;
+  background: rgba(198,40,40,.15);
+  border: 1px solid rgba(198,40,40,.4);
   border-radius: 6px;
   font-size: 0.84rem;
   color: #ef9a9a;
 }
-
 .closeBtn {
-  background: none;
-  border: none;
-  color: #ef9a9a;
-  cursor: pointer;
-  font-size: 0.9rem;
-  padding: 0 0.2rem;
-  opacity: 0.7;
+  background: none; border: none;
+  color: #ef9a9a; cursor: pointer;
+  font-size: 0.9rem; opacity: 0.7; padding: 0 0.2rem;
+}
+.closeBtn:hover { opacity: 1; }
+
+/* ── GAME WRAP ── */
+.gameWrap {
+  display: grid;
+  grid-template-columns: 210px 1fr 170px;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "tree board players"
+    "city city  players"
+    "hand hand  hand";
+  gap: 8px;
+  padding: 10px;
+  max-width: 1380px;
+  margin: 0 auto;
 }
 
-.closeBtn:hover {
-  opacity: 1;
+.panelTitle {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  opacity: 0.5;
+  margin-bottom: 7px;
 }
 
-/* ── ACTION ROW ── */
-.actionRow {
+/* ── PRASTROM ── */
+.treePanel {
+  grid-area: tree;
+  background: radial-gradient(ellipse at top, #223c22 0%, #142014 100%);
+  border: 2px solid #6b4423;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.treeBody {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  margin: 0.6rem 0;
-  flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
-.seasonBtn {
-  padding: 0.3rem 0.9rem;
-  background: rgba(255, 213, 79, 0.12);
-  border: 1px solid rgba(255, 213, 79, 0.4);
-  border-radius: 20px;
-  color: #ffd54f;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.14s;
+.branch {
+  background: rgba(107,68,35,.25);
+  border: 1px solid #a07850;
+  border-radius: 18px;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3px 0;
+}
+.branchNarrow { width: 75%; }
+.branchMid    { width: 88%; }
+.branchFull   { width: 100%; }
+
+.branchLabel { font-size: 10px; font-weight: 700; }
+.blAutumn { color: #ffb74d; }
+.blSummer { color: #81c784; }
+.blSpring { color: #7dbd6e; }
+
+.workersRow { display: flex; gap: 3px; }
+.workerSlot {
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(255,255,255,.25);
+  opacity: .35;
 }
 
-.seasonBtn:hover:not(:disabled) {
-  background: rgba(255, 213, 79, 0.22);
+.trunk {
+  width: 5px; height: 20px;
+  background: #6b4423;
+  border-radius: 2px;
+  margin: 2px 0;
 }
 
-.seasonBtn:disabled {
-  opacity: 0.4;
+/* ── BOARD PANEL ── */
+.boardPanel {
+  grid-area: board;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ── MEADOW ── */
+.meadow {
+  background: linear-gradient(160deg, #1a3418 0%, #1e3c1c 100%);
+  border: 2px solid #4a8c3f;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.meadowGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+/* ── BASIC LOCATIONS ── */
+.basicLocs {
+  background: rgba(0,0,0,.25);
+  border: 1px solid #6b4423;
+  border-radius: 10px;
+  padding: 9px 12px;
+}
+
+.basicRow {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
+.bloc {
+  background: linear-gradient(160deg, #223420, #1a2c18);
+  border: 1px solid #4a8c3f;
+  border-radius: 8px;
+  padding: 6px 5px;
+  text-align: center;
   cursor: default;
+  transition: border-color .15s, background .15s;
 }
-
-/* ── LOCATION EXTRAS ── */
-.locationIcon {
-  font-size: 1.3rem;
-  line-height: 1;
-}
-
-.locationGain {
-  font-size: 0.7rem;
-  opacity: 0.6;
-  line-height: 1.3;
-}
-
-.locationActive {
+.blocActive {
   cursor: pointer;
-  border-color: rgba(125, 189, 110, 0.5) !important;
-  background: rgba(125, 189, 110, 0.07) !important;
+  border-color: #7dbd6e;
+  box-shadow: 0 0 6px rgba(125,189,110,.2);
+}
+.blocActive:hover {
+  background: linear-gradient(160deg, #2a4428, #223420);
 }
 
-.locationActive:hover {
-  background: rgba(125, 189, 110, 0.13) !important;
-  border-color: #7dbd6e !important;
-}
+.blocName { font-size: 8px; font-weight: 700; color: #7dbd6e; margin-bottom: 3px; }
 
-.locationCta {
-  font-size: 0.68rem;
-  color: #7dbd6e;
-  font-weight: 700;
-  margin-top: 0.2rem;
-}
+.rewardPips { display: flex; gap: 2px; justify-content: center; margin-bottom: 4px; flex-wrap: wrap; min-height: 15px; }
+.cardPipIcon { font-size: 10px; line-height: 1; }
 
-/* ── WORKER DOT ── */
-.workerDot {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
+.blocSlots { display: flex; gap: 2px; justify-content: center; min-height: 16px; }
+.bslotOcc {
+  width: 14px; height: 14px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.35);
+  border: 1.5px solid rgba(255,255,255,.35);
 }
-
-/* ── OPPONENT TURN DOT ── */
-.onTurnDot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
+.bslotEmpty {
+  width: 14px; height: 14px;
   border-radius: 50%;
-  background: #7dbd6e;
-  margin-left: 0.4rem;
-  vertical-align: middle;
-  animation: pulse 1.2s ease-in-out infinite;
+  border: 1px dashed rgba(255,255,255,.3);
+  opacity: .5;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+/* ── PLAYERS PANEL ── */
+.playersPanel {
+  grid-area: players;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
-/* ── MY TURN TAG ── */
-.myTurnTag {
-  color: #7dbd6e;
-  font-weight: 700;
+.pcard {
+  background: linear-gradient(160deg, #1a2e1a 0%, #142012 100%);
+  border: 2px solid #6b4423;
+  border-radius: 10px;
+  padding: 9px 10px;
+  position: relative;
+}
+.pcardActive {
+  border-color: #f9a825;
+  box-shadow: 0 0 14px rgba(249,168,37,.25);
 }
 
-/* ── CANCEL BUTTON ── */
+.pHeader {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 6px;
+}
+.pDot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.pName { font-size: 12px; font-weight: 700; }
+.pTurnTag { font-size: 8px; opacity: .65; margin-left: auto; }
+
+.pRes {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3px; margin-bottom: 5px;
+}
+.pResItem {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600;
+}
+
+.pInfo {
+  font-size: 9px; opacity: .55;
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: 4px; margin-top: 2px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+
+/* ── CITY ── */
+.cityPanel {
+  grid-area: city;
+  background: linear-gradient(160deg, #141e14 0%, #1a2a18 100%);
+  border: 2px solid #6b4423;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.cityGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 6px;
+  min-height: 110px;
+  align-items: start;
+}
+
+.emptySlot {
+  aspect-ratio: 5 / 7;
+  border: 1.5px dashed rgba(255,255,255,.1);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; opacity: .2;
+}
+
+/* ── HAND ── */
+.handPanel {
+  grid-area: hand;
+  background: linear-gradient(160deg, #0e180e 0%, #141e12 100%);
+  border: 2px solid #6b4423;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.handTop {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
+}
+
+.resBar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
+.resBarItem {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 14px; font-weight: 700;
+}
+
+.actionsRow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.btnSeason {
+  border: none; border-radius: 20px;
+  padding: 7px 15px; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+  background: linear-gradient(135deg, #e65100, #8d2e00);
+  color: #fff;
+}
+.btnSeason:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-1px); }
+.btnSeason:disabled { opacity: 0.4; cursor: default; }
+
+.handCards {
+  display: flex; gap: 8px;
+  overflow-x: auto; padding-bottom: 4px;
+}
+.handCard { flex-shrink: 0; width: 86px; }
+
 .cancelBtn {
-  margin-top: 0.5rem;
-  padding: 0.25rem 0.8rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 6px;
+  padding: 4px 12px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.15);
   border-radius: 14px;
-  color: rgba(255, 255, 255, 0.55);
-  font-size: 0.76rem;
-  cursor: pointer;
+  color: rgba(255,255,255,.55);
+  font-size: 0.76rem; cursor: pointer;
+}
+.cancelBtn:hover { background: rgba(255,255,255,.09); color: rgba(255,255,255,.8); }
+
+.dimText { font-size: 0.78rem; opacity: 0.4; font-style: italic; }
+
+/* ── CARD ── */
+.card {
+  border-radius: 10px;
+  border: 1.5px solid rgba(0,0,0,.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  cursor: default;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+  aspect-ratio: 5 / 7;
+  position: relative;
+}
+.card:hover:not(.cardDisabled) {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 24px rgba(0,0,0,.6);
+  z-index: 20;
 }
 
-.cancelBtn:hover {
-  background: rgba(255, 255, 255, 0.09);
-  color: rgba(255, 255, 255, 0.8);
+.cardCritter {
+  background: linear-gradient(160deg, #fff8e1 0%, #ffe082 100%);
+  color: #3e2723;
+}
+.cardConstruction {
+  background: linear-gradient(160deg, #ede7f6 0%, #b39ddb 100%);
+  color: #1a237e;
+}
+
+.cardSelected {
+  border: 2px solid #7dbd6e !important;
+  box-shadow: 0 0 0 2px rgba(125,189,110,.4), 0 8px 20px rgba(0,0,0,.5);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.cardDisabled { opacity: 0.38; cursor: default; }
+.cardDisabled:hover { transform: none !important; box-shadow: none !important; }
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 5px 5px 0;
+}
+.cardTypeIcon { font-size: 13px; line-height: 1; }
+.costPips {
+  display: flex; gap: 2px; flex-wrap: wrap;
+  justify-content: flex-end; max-width: 52px;
+}
+.pipFree { font-size: 9px; opacity: .6; }
+
+.cardArt {
+  margin: 3px 5px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  flex: 1;
+  min-height: 36px;
+}
+.cardArtCritter      { background: linear-gradient(135deg, #ffe082 0%, #ffb300 100%); }
+.cardArtConstruction { background: linear-gradient(135deg, #cfd8dc 0%, #90a4ae 100%); }
+
+.cardName {
+  text-align: center;
+  font-weight: 800;
+  font-size: 9px;
+  padding: 2px 4px;
+  line-height: 1.2;
+}
+
+.cardSep { height: 1px; background: rgba(0,0,0,.15); margin: 0 5px; }
+
+.cardFx {
+  font-size: 8px;
+  padding: 2px 5px;
+  line-height: 1.35;
+  opacity: .8;
+  flex: 1;
+}
+.cardFxSpacer { flex: 1; }
+
+.cardFoot {
+  display: flex; justify-content: flex-end;
+  padding: 2px 5px 4px;
+}
+
+.vpCircle {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #f9a825;
+  color: #333; font-weight: 800; font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid #c77800;
+}
+
+.cardActionOverlay {
+  position: absolute; bottom: 26px; left: 0; right: 0;
+  text-align: center;
+  font-size: 7px; font-weight: 800;
+  background: rgba(125,189,110,.9);
+  color: #0a2a0a;
+  padding: 2px 0;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+/* ── PIPS ── */
+.pipSm {
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 7px; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+}
+.pipMd {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: #fff;
+  flex-shrink: 0;
 }
