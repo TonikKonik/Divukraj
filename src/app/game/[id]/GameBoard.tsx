@@ -342,29 +342,32 @@ export default function GameBoard({
 
       <div className={styles.gameWrap}>
 
-        {/* ── LEFT: PRASTROM ── */}
-        <aside className={styles.treePanel}>
-          <div className={styles.panelTitle}>🌳 Prastrom</div>
-          <div className={styles.treeBody}>
-            {(["AUTUMN", "SUMMER", "SPRING"] as const).map((s, i) => (
-              <div
-                key={s}
-                className={`${styles.branch} ${[styles.branchNarrow, styles.branchMid, styles.branchFull][i]}`}
-              >
-                <span className={`${styles.branchLabel} ${BRANCH_LABEL_CLASS[s]}`}>
-                  {SEASON_LABELS[s]}
-                </span>
-                <div className={styles.workersRow}>
-                  {[0, 1, 2].map(j => <div key={j} className={styles.workerSlot} />)}
-                </div>
-              </div>
-            ))}
-            <div className={styles.trunk} />
-          </div>
-        </aside>
+        {/* ── HERNÍ DESKA (fyzická deska hry na stole) ── */}
+        <div className={styles.herniDeska}>
 
-        {/* ── CENTER: BOARD ── */}
-        <main className={styles.boardPanel}>
+          {/* LEFT: PRASTROM */}
+          <aside className={styles.treePanel}>
+            <div className={styles.panelTitle}>🌳 Prastrom</div>
+            <div className={styles.treeBody}>
+              {(["AUTUMN", "SUMMER", "SPRING"] as const).map((s, i) => (
+                <div
+                  key={s}
+                  className={`${styles.branch} ${[styles.branchNarrow, styles.branchMid, styles.branchFull][i]}`}
+                >
+                  <span className={`${styles.branchLabel} ${BRANCH_LABEL_CLASS[s]}`}>
+                    {SEASON_LABELS[s]}
+                  </span>
+                  <div className={styles.workersRow}>
+                    {[0, 1, 2].map(j => <div key={j} className={styles.workerSlot} />)}
+                  </div>
+                </div>
+              ))}
+              <div className={styles.trunk} />
+            </div>
+          </aside>
+
+          {/* CENTER: BOARD */}
+          <main className={styles.boardPanel}>
 
           {/* MEADOW */}
           <div className={styles.meadow}>
@@ -431,7 +434,9 @@ export default function GameBoard({
               })}
             </div>
           </div>
-        </main>
+          </main>
+
+        </div>{/* /herniDeska */}
 
         {/* ── RIGHT: PLAYERS ── */}
         <aside className={styles.playersPanel}>
