@@ -59,3 +59,14 @@ npx prisma db push          # vývoj / první spuštění
 2. **Herní stav** — DB model, Socket.io real-time sync
 3. **Herní mechaniky** — louky, lokace, karty, město, sezóny
 4. **Vizuál** — CSS design system (viz `design/divukraj-preview.html` v workspace repo)
+
+---
+
+## 🔧 VPS Operations
+
+Pro libovolný příkaz na VPS (self-hosted runner, ~5s latence):
+
+- Spustit: `mcp__github__actions_run_trigger` → `vps-ops.yml` → `{command: "custom", custom_cmd: "PŘÍKAZ"}`
+- Výsledek: `mcp__github-all__get_file_contents` → `TonikKonik/tonikkonik-workspace/ops-output/result.md`
+
+Predefined příkazy (deploy, logs, status...) a kompletní dokumentace: viz globální CLAUDE.md v tonikkonik-workspace.
