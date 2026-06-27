@@ -2,23 +2,44 @@
   min-height: 100vh;
   color: #f5e8c8;
   font-family: 'Segoe UI', system-ui, sans-serif;
-  /* Starý mahagonový stůl z masivu */
-  background-color: #7a3c10;
+  /* Starý masivní stůl z dřevěných hranolů */
+  background-color: #7c3e12;
   background-image:
+    /* Spáry mezi hranoly — tmavá horizontální čára každých 124px */
     repeating-linear-gradient(
-      88deg,
-      transparent 0px, transparent 13px,
-      rgba(10,3,0,0.14) 13px, rgba(10,3,0,0.14) 14px,
-      transparent 14px, transparent 31px,
-      rgba(200,100,20,0.07) 31px, rgba(200,100,20,0.07) 32px,
-      transparent 32px, transparent 57px,
-      rgba(10,3,0,0.10) 57px, rgba(10,3,0,0.10) 58px,
-      transparent 58px, transparent 88px,
-      rgba(150,65,10,0.05) 88px, rgba(150,65,10,0.05) 89px,
-      transparent 89px, transparent 122px,
-      rgba(10,3,0,0.08) 122px, rgba(10,3,0,0.08) 123px
+      0deg,
+      transparent 0px,
+      transparent 119px,
+      rgba(4,1,0,0.70) 119px,
+      rgba(4,1,0,0.70) 122px,
+      rgba(40,12,2,0.30) 122px,
+      rgba(40,12,2,0.30) 124px,
+      transparent 124px
     ),
-    radial-gradient(ellipse at 42% 28%, #a04c1c 0%, #7a3c10 25%, #4e2208 60%, #2a1004 100%);
+    /* Světlý odlesk u horního okraje každého hranolu */
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,200,120,0.06) 0px,
+      rgba(255,200,120,0.06) 3px,
+      transparent 3px,
+      transparent 124px
+    ),
+    /* Vlákna dřeva podél délky hranolu */
+    repeating-linear-gradient(
+      89.2deg,
+      transparent 0px, transparent 7px,
+      rgba(10,3,0,0.13) 7px, rgba(10,3,0,0.13) 8px,
+      transparent 8px, transparent 21px,
+      rgba(180,85,15,0.07) 21px, rgba(180,85,15,0.07) 22px,
+      transparent 22px, transparent 40px,
+      rgba(10,3,0,0.10) 40px, rgba(10,3,0,0.10) 41px,
+      transparent 41px, transparent 64px,
+      rgba(150,65,10,0.05) 64px, rgba(150,65,10,0.05) 65px,
+      transparent 65px, transparent 92px,
+      rgba(10,3,0,0.08) 92px, rgba(10,3,0,0.08) 93px
+    ),
+    /* Radiální hloubka — opotřebované hrany stolu */
+    radial-gradient(ellipse at 50% 50%, #9c4e1c 0%, #7c3e12 35%, #4e2008 70%, #240e02 100%);
 }
 
 .centered {
@@ -450,64 +471,80 @@
 .cardDisabled { opacity: 0.38; cursor: default; }
 .cardDisabled:hover { transform: none !important; box-shadow: none !important; }
 
-/* ── CARD TOP: cost column left + illustration right ── */
-.cardTop {
+/* ── CARD: NAME BANNER (nahoře, barevný dle typu) ── */
+.cardHeader {
   display: flex;
-  flex-direction: row;
-  flex: 1.6;
-  min-height: 0;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 5px;
+  flex-shrink: 0;
 }
-.cardCostCol {
+.headerGREEN  { background: linear-gradient(90deg, #1a5e1e, #2e7d32); }
+.headerRED    { background: linear-gradient(90deg, #800000, #c62828); }
+.headerBLUE   { background: linear-gradient(90deg, #0d2a6e, #1565c0); }
+.headerTAN    { background: linear-gradient(90deg, #5a4000, #8a6200); }
+.headerPURPLE { background: linear-gradient(90deg, #4a148c, #7b1fa2); }
+
+.cardName {
+  font-weight: 900;
+  font-size: 7.5px;
+  color: #fff;
+  text-align: center;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  letter-spacing: 0.1px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* ── CARD: ILUSTRACE (s overlayem ceny, odznaku, VP) ── */
+.cardArt {
+  flex: 1.4;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 0;
+}
+.cardArtGREEN  { background: linear-gradient(145deg, #3d6e34 0%, #254d1e 100%); }
+.cardArtRED    { background: linear-gradient(145deg, #6e1c1c 0%, #450e0e 100%); }
+.cardArtBLUE   { background: linear-gradient(145deg, #163060 0%, #0c1e40 100%); }
+.cardArtTAN    { background: linear-gradient(145deg, #6a5018 0%, #4e380c 100%); }
+.cardArtPURPLE { background: linear-gradient(145deg, #4e1468 0%, #320848 100%); }
+
+.artEmoji {
+  font-size: 26px;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
+}
+
+/* Cena — vlevo nahoře v ilustraci */
+.costOverlay {
+  position: absolute;
+  top: 3px;
+  left: 3px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   gap: 2px;
-  padding: 4px 2px;
-  background: rgba(0,0,0,0.14);
-  border-right: 1px solid rgba(0,0,0,0.22);
-  width: 17px;
-  flex-shrink: 0;
+  z-index: 2;
 }
-.pipFree { font-size: 8px; opacity: .55; }
-.pairedHint {
-  margin-top: auto;
-  font-size: 7px;
-  opacity: 0.4;
-  padding-top: 2px;
-  line-height: 1;
-}
+.pipFree { font-size: 8px; opacity: .6; color: #fff; }
 
-.cardArt {
-  flex: 1;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px;
-  border: none;
-}
-.cardArtGREEN  { background: linear-gradient(135deg, #4a7c3f 0%, #2d5a25 100%); }
-.cardArtRED    { background: linear-gradient(135deg, #7a2020 0%, #501010 100%); }
-.cardArtBLUE   { background: linear-gradient(135deg, #1a3a6a 0%, #0d2040 100%); }
-.cardArtTAN    { background: linear-gradient(135deg, #7a6020 0%, #5a4010 100%); }
-.cardArtPURPLE { background: linear-gradient(135deg, #5a1a7a 0%, #3a0a5a 100%); }
-
-/* ── CARD NAME ROW: type badge + name + VP ── */
-.cardNameRow {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 3px 4px 2px;
-  border-top: 1px solid rgba(0,0,0,0.2);
-  background: rgba(0,0,0,0.08);
-  flex-shrink: 0;
-}
+/* Odznak typu — vpravo nahoře v ilustraci */
 .cardTypeBadge {
-  width: 11px; height: 11px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 13px; height: 13px;
   border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 6px;
-  flex-shrink: 0;
-  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7px;
+  z-index: 2;
+  border: 1px solid rgba(255,255,255,0.3);
 }
 .badgeGREEN  { background: #1b5e20; color: #fff; }
 .badgeRED    { background: #7f0000; color: #fff; }
@@ -515,43 +552,47 @@
 .badgeTAN    { background: #5a4000; color: #fff; }
 .badgePURPLE { background: #4a148c; color: #fff; }
 
-.cardName {
-  flex: 1;
-  font-weight: 800;
-  font-size: 8px;
-  line-height: 1.2;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
+/* VP kolečko — vpravo dole v ilustraci */
 .vpCircle {
-  width: 18px; height: 18px;
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 20px; height: 20px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #ffd54f, #f9a825 55%, #e65100);
-  color: #1a0800; font-weight: 900; font-size: 10px;
+  color: #1a0800; font-weight: 900; font-size: 11px;
   display: flex; align-items: center; justify-content: center;
   border: 1.5px solid #a05000;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
-  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.35);
+  z-index: 2;
 }
 
+/* ── CARD: PODTYP + spárování ── */
+.cardSubtypeRow {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 5px;
+  background: rgba(0,0,0,0.10);
+  border-top: 1px solid rgba(0,0,0,0.18);
+  flex-shrink: 0;
+}
 .cardSubtype {
   font-size: 6px;
   font-weight: 600;
   opacity: 0.5;
   letter-spacing: 0.3px;
-  padding: 0 4px 1px;
   text-transform: uppercase;
-  flex-shrink: 0;
+  flex: 1;
 }
+.pairedHint { font-size: 8px; opacity: 0.4; }
 
+/* ── CARD: EFEKT TEXT ── */
 .cardFx {
-  font-size: 8px;
-  padding: 2px 5px;
-  line-height: 1.35;
-  opacity: .82;
+  font-size: 7.5px;
+  padding: 3px 5px;
+  line-height: 1.38;
+  opacity: .85;
   flex: 1;
   overflow: hidden;
 }

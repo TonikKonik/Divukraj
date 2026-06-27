@@ -60,10 +60,10 @@ type ResType = "twigs" | "resin" | "pebbles" | "berries"
 type RewardItem = { type: ResType | "cards"; count: number }
 
 const PIP_CFG: Record<ResType, { bg: string; letter: string; title: string }> = {
-  twigs:   { bg: "#5d3010", letter: "v", title: "Větvičky" },
-  resin:   { bg: "#bf6000", letter: "s", title: "Smůla" },
-  pebbles: { bg: "#607080", letter: "o", title: "Oblázky" },
-  berries: { bg: "#7b1fa2", letter: "b", title: "Bobule" },
+  twigs:   { bg: "#6b3510", letter: "╲", title: "Větvičky" },   // dřívko
+  resin:   { bg: "#c07800", letter: "◆", title: "Smůla" },      // krystal
+  pebbles: { bg: "#4d5c6c", letter: "●", title: "Oblázky" },    // kámen
+  berries: { bg: "#701fa0", letter: "✿", title: "Bobule" },     // bobule
 }
 
 const CARD_STRIPE_CLASS: Record<string, string> = {
@@ -84,6 +84,10 @@ const CARD_BADGE_CLASS: Record<string, string> = {
 }
 const CARD_TYPE_ICON: Record<string, string> = {
   GREEN: "🌿", RED: "🐾", BLUE: "📜", TAN: "🦋", PURPLE: "🌸",
+}
+const CARD_HEADER_CLASS: Record<string, string> = {
+  GREEN: styles.headerGREEN, RED: styles.headerRED,
+  BLUE: styles.headerBLUE, TAN: styles.headerTAN, PURPLE: styles.headerPURPLE,
 }
 
 const BASIC_LOCATIONS: Array<{ id: string; label: string; rewards: RewardItem[] }> = [
@@ -149,42 +153,51 @@ function CardTile({
 
   return (
     <div className={cls} onClick={!disabled && onClick ? onClick : undefined}>
+      {/* Tenký barevný proužek nahoře */}
       {card && <div className={`${styles.cardStripe} ${CARD_STRIPE_CLASS[card.color] ?? ""}`} />}
 
-      {/* Top section: vertical cost column (left) + illustration (right) */}
-      <div className={styles.cardTop}>
-        <div className={styles.cardCostCol}>
+      {/* Banner s názvem karty — barevný dle funkčního typu */}
+      <div className={`${styles.cardHeader} ${card ? (CARD_HEADER_CLASS[card.color] ?? "") : ""}`}>
+        <span className={styles.cardName}>{card?.name ?? cardId}</span>
+      </div>
+
+      {/* Ilustrace — s overlayem ceny (vlevo nahoře), odznaku (vpravo nahoře), VP (vpravo dole) */}
+      <div className={`${styles.cardArt} ${card ? (CARD_ART_CLASS[card.color] ?? "") : ""}`}>
+        {/* Cena — vlevo nahoře */}
+        <div className={styles.costOverlay}>
           {card && Array.from({ length: card.cost.twigs   ?? 0 }, (_, i) => <Pip key={`t${i}`} type="twigs"   />)}
           {card && Array.from({ length: card.cost.resin   ?? 0 }, (_, i) => <Pip key={`r${i}`} type="resin"   />)}
           {card && Array.from({ length: card.cost.pebbles ?? 0 }, (_, i) => <Pip key={`p${i}`} type="pebbles" />)}
           {card && Array.from({ length: card.cost.berries ?? 0 }, (_, i) => <Pip key={`b${i}`} type="berries" />)}
           {card && !hasCost && <span className={styles.pipFree}>✦</span>}
-          {card && isCritter && card.pairedWith && (
-            <span className={styles.pairedHint} title="Spárováno se stavbou">🏚</span>
-          )}
         </div>
-        <div className={`${styles.cardArt} ${card ? (CARD_ART_CLASS[card.color] ?? "") : ""}`}>
-          {card ? (CARD_ART_EMOJI[card.type]?.[card.color] ?? "?") : "?"}
-        </div>
-      </div>
-
-      {/* Name row: type badge + name + VP circle */}
-      <div className={styles.cardNameRow}>
+        {/* Odznak funkčního typu — vpravo nahoře */}
         {card && (
           <span className={`${styles.cardTypeBadge} ${CARD_BADGE_CLASS[card.color] ?? ""}`}>
             {CARD_TYPE_ICON[card.color] ?? ""}
           </span>
         )}
-        <span className={styles.cardName}>{card?.name ?? cardId}</span>
+        {/* Emoji ilustrace — střed */}
+        <span className={styles.artEmoji}>
+          {card ? (CARD_ART_EMOJI[card.type]?.[card.color] ?? "?") : "?"}
+        </span>
+        {/* VP kolečko — vpravo dole */}
         {card && <div className={styles.vpCircle}>{card.points}</div>}
       </div>
 
+      {/* Podtyp + spárování */}
       {card && (
-        <div className={styles.cardSubtype}>
-          {card.unique ? "jedinečný" : "běžný"} {isCritter ? "tvor" : "stavba"}
+        <div className={styles.cardSubtypeRow}>
+          <span className={styles.cardSubtype}>
+            {card.unique ? "jedinečný" : "běžný"} {isCritter ? "tvor" : "stavba"}
+          </span>
+          {isCritter && card.pairedWith && (
+            <span className={styles.pairedHint} title={`Spárováno se stavbou ${card.pairedWith}`}>🏚</span>
+          )}
         </div>
       )}
 
+      {/* Efektový text */}
       {card && showEffect && (
         <div className={styles.cardFx}>{card.effectText}</div>
       )}
