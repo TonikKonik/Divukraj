@@ -39,7 +39,8 @@ const SEASON_ABBR: Record<string, string> = {
 const SEASON_ORDER = ["SPRING", "SUMMER", "AUTUMN", "WINTER"] as const
 
 const PLAYER_COLOR_HEX: Record<string, string> = {
-  RED: "#c62828", BLUE: "#1565c0", GREEN: "#2e7d32", ORANGE: "#e65100",
+  RED: "#c62828", BLUE: "#1565c0", BROWN: "#6d4c41", WHITE: "#e0d8cc",
+  GREEN: "#2e7d32", ORANGE: "#e65100",
 }
 
 const SEASON_PIP_CLASS: Record<string, string> = {
@@ -59,10 +60,10 @@ type ResType = "twigs" | "resin" | "pebbles" | "berries"
 type RewardItem = { type: ResType | "cards"; count: number }
 
 const PIP_CFG: Record<ResType, { bg: string; letter: string; title: string }> = {
-  twigs:   { bg: "#7b3f00", letter: "v", title: "Větvičky" },
-  resin:   { bg: "#c8960c", letter: "s", title: "Smůla" },
-  pebbles: { bg: "#757575", letter: "o", title: "Oblázky" },
-  berries: { bg: "#b71c1c", letter: "b", title: "Bobule" },
+  twigs:   { bg: "#5d3010", letter: "v", title: "Větvičky" },
+  resin:   { bg: "#bf6000", letter: "s", title: "Smůla" },
+  pebbles: { bg: "#607080", letter: "o", title: "Oblázky" },
+  berries: { bg: "#7b1fa2", letter: "b", title: "Bobule" },
 }
 
 const CARD_STRIPE_CLASS: Record<string, string> = {
