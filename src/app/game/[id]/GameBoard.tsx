@@ -65,8 +65,17 @@ const PIP_CFG: Record<ResType, { bg: string; letter: string; title: string }> = 
   berries: { bg: "#b71c1c", letter: "b", title: "Bobule" },
 }
 
-const CARD_ART: Record<string, string> = {
-  GREEN: "🌿", RED: "🔴", BLUE: "💧", TAN: "🍂", PURPLE: "✨",
+const CARD_STRIPE_CLASS: Record<string, string> = {
+  GREEN: styles.cardStripeGREEN, RED: styles.cardStripeRED,
+  BLUE: styles.cardStripeBLUE, TAN: styles.cardStripeTAN, PURPLE: styles.cardStripePURPLE,
+}
+const CARD_ART_CLASS: Record<string, string> = {
+  GREEN: styles.cardArtGREEN, RED: styles.cardArtRED,
+  BLUE: styles.cardArtBLUE, TAN: styles.cardArtTAN, PURPLE: styles.cardArtPURPLE,
+}
+const CARD_ART_EMOJI: Record<string, Record<string, string>> = {
+  CRITTER:      { GREEN: "🐸", RED: "🦡", BLUE: "🦉", TAN: "🐰", PURPLE: "🦅" },
+  CONSTRUCTION: { GREEN: "🌾", RED: "🏠", BLUE: "🏛️", TAN: "🛒", PURPLE: "🏰" },
 }
 
 const BASIC_LOCATIONS: Array<{ id: string; label: string; rewards: RewardItem[] }> = [
@@ -132,6 +141,7 @@ function CardTile({
 
   return (
     <div className={cls} onClick={!disabled && onClick ? onClick : undefined}>
+      {card && <div className={`${styles.cardStripe} ${CARD_STRIPE_CLASS[card.color] ?? ""}`} />}
       <div className={styles.cardHead}>
         <span className={styles.cardTypeIcon}>{isCritter ? "🐾" : "🏚️"}</span>
         <div className={styles.costPips}>
@@ -143,8 +153,8 @@ function CardTile({
         </div>
       </div>
 
-      <div className={`${styles.cardArt} ${isCritter ? styles.cardArtCritter : styles.cardArtConstruction}`}>
-        {card ? CARD_ART[card.color] : "?"}
+      <div className={`${styles.cardArt} ${card ? (CARD_ART_CLASS[card.color] ?? "") : ""}`}>
+        {card ? (CARD_ART_EMOJI[card.type]?.[card.color] ?? "?") : "?"}
       </div>
 
       <div className={styles.cardName}>{card?.name ?? cardId}</div>

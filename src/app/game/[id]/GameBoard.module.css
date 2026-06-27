@@ -1,8 +1,25 @@
 .board {
   min-height: 100vh;
-  background: #0f1a0f;
   color: #f5e8c8;
   font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #1a0e06;
+  background-image:
+    repeating-linear-gradient(
+      93deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(180, 120, 60, 0.045) 10px,
+      rgba(180, 120, 60, 0.045) 11px,
+      transparent 11px,
+      transparent 28px,
+      rgba(60, 30, 8, 0.06) 28px,
+      rgba(60, 30, 8, 0.06) 29px,
+      transparent 29px,
+      transparent 50px,
+      rgba(140, 80, 20, 0.03) 50px,
+      rgba(140, 80, 20, 0.03) 51px
+    ),
+    radial-gradient(ellipse at 50% 18%, #2d1a08 0%, #130900 58%, #080400 100%);
 }
 
 .centered {
@@ -17,8 +34,8 @@
 
 /* ── HEADER ── */
 .header {
-  background: linear-gradient(135deg, #0f1a0f 0%, #1e3c1e 40%, #1a3010 100%);
-  border-bottom: 2px solid #6b4423;
+  background: linear-gradient(135deg, #150b04 0%, #2a1508 40%, #150b04 100%);
+  border-bottom: 2px solid #7a5a1a;
   padding: 10px 16px;
   display: flex;
   align-items: center;
@@ -36,7 +53,7 @@
   font-variant: small-caps;
   white-space: nowrap;
 }
-.gameTitle span { color: #ddc98a; }
+.gameTitle span { color: #c8960c; }
 
 .seasonTrack {
   display: flex;
@@ -64,7 +81,7 @@
 .seasonLabel {
   font-size: 12px; font-weight: 600;
   margin-left: 8px;
-  color: #7dbd6e;
+  color: #c8960c;
 }
 
 .headerRight { text-align: right; font-size: 12px; }
@@ -376,13 +393,23 @@
 }
 
 .cardCritter {
-  background: linear-gradient(160deg, #fff8e1 0%, #ffe082 100%);
-  color: #3e2723;
+  background: linear-gradient(170deg, #f6e8cc 0%, #e8d0a8 60%, #d9bb86 100%);
+  color: #2a1a08;
+  border-color: rgba(140, 90, 20, 0.35);
 }
 .cardConstruction {
-  background: linear-gradient(160deg, #ede7f6 0%, #b39ddb 100%);
-  color: #1a237e;
+  background: linear-gradient(170deg, #eee4d0 0%, #dccfb0 60%, #ccba90 100%);
+  color: #1a1208;
+  border-color: rgba(100, 70, 20, 0.3);
 }
+
+/* ── CARD COLOR STRIPE (funkční typ) ── */
+.cardStripe { height: 5px; margin: 0; border-radius: 8px 8px 0 0; flex-shrink: 0; }
+.cardStripeGREEN  { background: linear-gradient(90deg, #1b5e20, #43a047); }
+.cardStripeRED    { background: linear-gradient(90deg, #7f0000, #d32f2f); }
+.cardStripeBLUE   { background: linear-gradient(90deg, #0d2a6e, #1976d2); }
+.cardStripeTAN    { background: linear-gradient(90deg, #5a4000, #f9a825); }
+.cardStripePURPLE { background: linear-gradient(90deg, #4a148c, #8e24aa); }
 
 .cardSelected {
   border: 2px solid #7dbd6e !important;
@@ -414,8 +441,11 @@
   flex: 1;
   min-height: 36px;
 }
-.cardArtCritter      { background: linear-gradient(135deg, #ffe082 0%, #ffb300 100%); }
-.cardArtConstruction { background: linear-gradient(135deg, #cfd8dc 0%, #90a4ae 100%); }
+.cardArtGREEN  { background: linear-gradient(135deg, #c8e6c9 0%, #81c784 100%); }
+.cardArtRED    { background: linear-gradient(135deg, #ffcdd2 0%, #e57373 100%); }
+.cardArtBLUE   { background: linear-gradient(135deg, #bbdefb 0%, #64b5f6 100%); }
+.cardArtTAN    { background: linear-gradient(135deg, #fff9c4 0%, #ffd54f 100%); }
+.cardArtPURPLE { background: linear-gradient(135deg, #e1bee7 0%, #ba68c8 100%); }
 
 .cardName {
   text-align: center;
