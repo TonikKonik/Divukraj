@@ -42,9 +42,9 @@ jobs:
               echo "No package.json – app not initialized yet, skipping deploy."
               exit 0
             fi
+            pm2 delete divukraj 2>/dev/null || true
             npm ci
             [ -f prisma/schema.prisma ] && npx prisma generate && npx prisma db push --accept-data-loss || true
             npm run build
-            pm2 delete divukraj 2>/dev/null || true
             pm2 start pm2.config.js && pm2 save
             echo deploy done
