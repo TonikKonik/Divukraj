@@ -64,7 +64,7 @@ export async function POST(
     const gain = LOCATION_GAIN[location]
     if (!gain) return err(`Neznámá lokace: ${location}`)
 
-    if (myWorkers.length >= 2) return err("Nemáš volné dělníky")
+    if (myWorkers.length >= 2) return err("Nemáš volné pomocníky")
     if (myWorkers.some((w) => w.location === location)) {
       return err("Tuto lokaci již obsazuješ")
     }

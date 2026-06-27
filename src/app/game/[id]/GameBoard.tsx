@@ -55,8 +55,8 @@ const CARD_COLOR_HEX: Record<CardColor, string> = {
 
 const BASIC_LOCATIONS = [
   { id: "TWIGS",       label: "Les",    icon: "🌲", gain: "🪵🪵 2 větvičky" },
-  { id: "RESIN",       label: "Bažina", icon: "🏔️", gain: "🫧 1 pryskyřice" },
-  { id: "PEBBLES",     label: "Jeskyně",icon: "🪨", gain: "🪨 1 kamínek" },
+  { id: "RESIN",       label: "Bažina", icon: "🏔️", gain: "🫧 1 smůla" },
+  { id: "PEBBLES",     label: "Jeskyně",icon: "🪨", gain: "🪨 1 oblázek" },
   { id: "BERRIES",     label: "Zahrada",icon: "🌿", gain: "🫐🫐 2 bobule" },
   { id: "CARDS",       label: "Rybník", icon: "🐟", gain: "🃏🃏 2 karty" },
   { id: "CARDS_TWIGS", label: "Keře",   icon: "🌾", gain: "🃏 1 karta + 🪵 1 větvička" },
@@ -101,7 +101,7 @@ function CardTile({
       {card && (
         <>
           <div className={styles.cardMeta}>
-            {card.type === "CRITTER" ? "Obyvatel" : "Stavba"}
+            {card.type === "CRITTER" ? "Tvor" : "Stavba"}
             {" · "}
             <span style={{ color }}>{COLOR_LABELS[card.color]}</span>
           </div>
@@ -124,8 +124,8 @@ function Resources({ twigs, resin, pebbles, berries }: {
   return (
     <div className={styles.resources}>
       <span title="Větvičky">🪵<b>{twigs}</b></span>
-      <span title="Pryskyřice">🫧<b>{resin}</b></span>
-      <span title="Kamínky">🪨<b>{pebbles}</b></span>
+      <span title="Smůla">🫧<b>{resin}</b></span>
+      <span title="Oblázky">🪨<b>{pebbles}</b></span>
       <span title="Bobule">🫐<b>{berries}</b></span>
     </div>
   )
@@ -342,7 +342,7 @@ export default function GameBoard({
           {/* Action buttons */}
           {isMyTurn && (
             <div className={styles.actionRow}>
-              <span className={styles.dimText}>Dělníci: {myDeployed}/2</span>
+              <span className={styles.dimText}>Pomocníci: {myDeployed}/2</span>
               <button
                 className={styles.seasonBtn}
                 onClick={() => doAction({ type: "PREPARE_SEASON" })}

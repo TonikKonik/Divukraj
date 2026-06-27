@@ -27,7 +27,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "ARCHITECT", name: "Architekt", nameEn: "Architect",
     type: "CRITTER", color: "PURPLE", points: 2, cost: { berries: 4 },
     copies: 2, unique: true, pairedWith: "CRANE",
-    effectText: "1 bod za každý nepoužitý kamínek a pryskyřici ve svém zásobníku (max. 6).",
+    effectText: "1 bod za každý nepoužitý oblázek a smůlu ve svém zásobníku (max. 6).",
   },
   BARD: {
     id: "BARD", name: "Bard", nameEn: "Bard",
@@ -51,7 +51,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "CEMETERY", name: "Hřbitov", nameEn: "Cemetery",
     type: "CONSTRUCTION", color: "RED", points: 0, cost: { pebbles: 2 },
     copies: 2, unique: true, pairedWith: "UNDERTAKER",
-    effectText: "Umísti dělníka: Odhal 4 karty z odkladiště nebo balíčku. Zahraj 1 zdarma. Zbytek odlož.",
+    effectText: "Umísti pomocníka: Odhal 4 karty z odkladiště nebo balíčku. Zahraj 1 zdarma. Zbytek odlož.",
   },
   CHAPEL: {
     id: "CHAPEL", name: "Kaple", nameEn: "Chapel",
@@ -93,13 +93,13 @@ export const CARDS: Record<string, CardDef> = {
     id: "DUNGEON", name: "Žalář", nameEn: "Dungeon",
     type: "CONSTRUCTION", color: "BLUE", points: 0, cost: { resin: 1, pebbles: 2 },
     copies: 2, unique: true, pairedWith: "RANGER",
-    effectText: "Přidej Obyvatele pod Žalář: Sniž cenu Stavby o 3 suroviny.",
+    effectText: "Přidej Tvora pod Žalář: Sniž cenu Stavby o 3 suroviny.",
   },
   EVERTREE: {
-    id: "EVERTREE", name: "Věčný strom", nameEn: "Ever Tree",
+    id: "EVERTREE", name: "Prastrom", nameEn: "Ever Tree",
     type: "CONSTRUCTION", color: "PURPLE", points: 5, cost: { twigs: 3, resin: 3, pebbles: 3 },
     copies: 2, unique: true,
-    effectText: "1 bod za každou kartu Prosperity ve svém městě. Libovolný Obyvatel může být zahrán zdarma.",
+    effectText: "1 bod za každou kartu Prosperity ve svém městě. Libovolný Tvor může být zahrán zdarma.",
   },
   FAIRGROUNDS: {
     id: "FAIRGROUNDS", name: "Tržiště", nameEn: "Fairgrounds",
@@ -129,7 +129,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "HISTORIAN", name: "Kronikář", nameEn: "Historian",
     type: "CRITTER", color: "BLUE", points: 1, cost: { berries: 2 },
     copies: 3, unique: false, pairedWith: "CLOCK_TOWER",
-    effectText: "Po zahrání libovolné karty (Obyvatel nebo Stavby) vyber 1 kartu.",
+    effectText: "Po zahrání libovolné karty (Tvor nebo Stavba) vyber 1 kartu.",
   },
   HUSBAND: {
     id: "HUSBAND", name: "Manžel", nameEn: "Husband",
@@ -141,13 +141,13 @@ export const CARDS: Record<string, CardDef> = {
     id: "INN", name: "Hostinec", nameEn: "Inn",
     type: "CONSTRUCTION", color: "RED", points: 2, cost: { twigs: 2, resin: 1 },
     copies: 3, unique: false, pairedWith: "INNKEEPER",
-    effectText: "Umísti dělníka: Zahraj libovolnou kartu z Louky o 3 suroviny levněji.",
+    effectText: "Umísti pomocníka: Zahraj libovolnou kartu z Louky o 3 suroviny levněji.",
   },
   INNKEEPER: {
     id: "INNKEEPER", name: "Hostinský", nameEn: "Innkeeper",
     type: "CRITTER", color: "BLUE", points: 1, cost: { berries: 1 },
     copies: 3, unique: false, pairedWith: "INN",
-    effectText: "Odlož Hostinského: Sniž cenu Obyvatele o 3 bobule.",
+    effectText: "Odlož Hostinského: Sniž cenu Tvora o 3 bobule.",
   },
   JUDGE: {
     id: "JUDGE", name: "Soudce", nameEn: "Judge",
@@ -165,13 +165,13 @@ export const CARDS: Record<string, CardDef> = {
     id: "LOOKOUT", name: "Vyhlídka", nameEn: "Lookout",
     type: "CONSTRUCTION", color: "RED", points: 2, cost: { twigs: 1, resin: 1, pebbles: 1 },
     copies: 2, unique: true, pairedWith: "WANDERER",
-    effectText: "Umísti dělníka: Zkopíruj schopnost libovolné základní nebo lesní lokace.",
+    effectText: "Umísti pomocníka: Zkopíruj schopnost libovolné základní nebo lesní lokace.",
   },
   MINE: {
     id: "MINE", name: "Důl", nameEn: "Mine",
     type: "CONSTRUCTION", color: "GREEN", points: 2, cost: { twigs: 1, resin: 1, pebbles: 1 },
     copies: 3, unique: false, pairedWith: "MINER_MOLE",
-    effectText: "Získej 1 kamínek.",
+    effectText: "Získej 1 oblázek.",
   },
   MINER_MOLE: {
     id: "MINER_MOLE", name: "Krtek horník", nameEn: "Miner Mole",
@@ -183,7 +183,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "MONASTERY", name: "Klášter", nameEn: "Monastery",
     type: "CONSTRUCTION", color: "RED", points: 1, cost: { twigs: 1, resin: 1, pebbles: 1 },
     copies: 2, unique: true, pairedWith: "MONK",
-    effectText: "Umísti dělníka: Dej 2 suroviny jinému hráči a získej 4 body vítězství.",
+    effectText: "Umísti pomocníka: Dej 2 suroviny jinému hráči a získej 4 body vítězství.",
   },
   MONK: {
     id: "MONK", name: "Mnich", nameEn: "Monk",
@@ -207,7 +207,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "POST_OFFICE", name: "Pošta", nameEn: "Post Office",
     type: "CONSTRUCTION", color: "RED", points: 2, cost: { twigs: 1, resin: 2 },
     copies: 3, unique: false, pairedWith: "POSTAL_PIGEON",
-    effectText: "Umísti dělníka: Dej soupeři 2 karty z ruky. Pak odlož libovolné karty a dober do plné ruky.",
+    effectText: "Umísti pomocníka: Dej soupeři 2 karty z ruky. Pak odlož libovolné karty a dober do plné ruky.",
   },
   POSTAL_PIGEON: {
     id: "POSTAL_PIGEON", name: "Poštovní holub", nameEn: "Postal Pigeon",
@@ -219,19 +219,19 @@ export const CARDS: Record<string, CardDef> = {
     id: "QUEEN", name: "Královna", nameEn: "Queen",
     type: "CRITTER", color: "RED", points: 4, cost: { berries: 5 },
     copies: 2, unique: true, pairedWith: "PALACE",
-    effectText: "Umísti dělníka: Zahraj libovolnou kartu z ruky s hodnotou ≤3 body zdarma.",
+    effectText: "Umísti pomocníka: Zahraj libovolnou kartu z ruky s hodnotou ≤3 body zdarma.",
   },
   RANGER: {
     id: "RANGER", name: "Lesní strážník", nameEn: "Ranger",
     type: "CRITTER", color: "TAN", points: 1, cost: { berries: 2 },
     copies: 2, unique: true, pairedWith: "DUNGEON",
-    effectText: "Přesuň libovolného ze svých nasazených dělníků na nové místo.",
+    effectText: "Přesuň libovolného ze svých nasazených pomocníků na nové místo.",
   },
   RESIN_REFINERY: {
-    id: "RESIN_REFINERY", name: "Výrobna pryskyřice", nameEn: "Resin Refinery",
+    id: "RESIN_REFINERY", name: "Výrobna smůly", nameEn: "Resin Refinery",
     type: "CONSTRUCTION", color: "GREEN", points: 1, cost: { resin: 1, pebbles: 1 },
     copies: 3, unique: false, pairedWith: "CHIP_SWEEP",
-    effectText: "Získej 1 pryskyřici.",
+    effectText: "Získej 1 smůlu.",
   },
   RUINS: {
     id: "RUINS", name: "Trosky", nameEn: "Ruins",
@@ -243,7 +243,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "SCHOOL", name: "Škola", nameEn: "School",
     type: "CONSTRUCTION", color: "PURPLE", points: 2, cost: { twigs: 2, resin: 2 },
     copies: 2, unique: true, pairedWith: "TEACHER",
-    effectText: "1 bod za každého běžného Obyvatele ve svém městě.",
+    effectText: "1 bod za každého běžného Tvora ve svém městě.",
   },
   SHEPHERD: {
     id: "SHEPHERD", name: "Pastýř", nameEn: "Shepherd",
@@ -255,13 +255,13 @@ export const CARDS: Record<string, CardDef> = {
     id: "SHOPKEEPER", name: "Kupec", nameEn: "Shopkeeper",
     type: "CRITTER", color: "BLUE", points: 1, cost: { berries: 2 },
     copies: 3, unique: false, pairedWith: "GENERAL_STORE",
-    effectText: "Po zahrání Obyvatele získej 1 bobuli.",
+    effectText: "Po zahrání Tvora získej 1 bobuli.",
   },
   STOREHOUSE: {
     id: "STOREHOUSE", name: "Sklad", nameEn: "Storehouse",
     type: "CONSTRUCTION", color: "GREEN", points: 2, cost: { twigs: 1, resin: 1, pebbles: 1 },
     copies: 3, unique: false, pairedWith: "WOODCARVER",
-    effectText: "Umísti zásoby: 3 větvičky, 2 pryskyřice, 1 kamínek nebo 2 bobule.",
+    effectText: "Umísti zásoby: 3 větvičky, 2 smůly, 1 oblázek nebo 2 bobule.",
   },
   TEACHER: {
     id: "TEACHER", name: "Učitel", nameEn: "Teacher",
@@ -273,7 +273,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "THEATRE", name: "Divadlo", nameEn: "Theatre",
     type: "CONSTRUCTION", color: "PURPLE", points: 3, cost: { twigs: 3, resin: 1, pebbles: 1 },
     copies: 2, unique: true, pairedWith: "BARD",
-    effectText: "1 bod za každého unikátního Obyvatele ve svém městě.",
+    effectText: "1 bod za každého unikátního Tvora ve svém městě.",
   },
   TWIG_BARGE: {
     id: "TWIG_BARGE", name: "Vorové čluny", nameEn: "Twig Barge",
@@ -291,7 +291,7 @@ export const CARDS: Record<string, CardDef> = {
     id: "UNIVERSITY", name: "Univerzita", nameEn: "University",
     type: "CONSTRUCTION", color: "RED", points: 3, cost: { resin: 2, pebbles: 3 },
     copies: 2, unique: true, pairedWith: "DOCTOR",
-    effectText: "Umísti dělníka: Odstraň Obyvatele ze svého města. Získej 1 z každé suroviny + vyber 1 kartu.",
+    effectText: "Umísti pomocníka: Odstraň Tvora ze svého města. Získej 1 z každé suroviny + vyber 1 kartu.",
   },
   WANDERER: {
     id: "WANDERER", name: "Poutník", nameEn: "Wanderer",
