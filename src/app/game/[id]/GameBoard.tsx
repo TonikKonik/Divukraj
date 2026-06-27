@@ -78,6 +78,13 @@ const CARD_ART_EMOJI: Record<string, Record<string, string>> = {
   CRITTER:      { GREEN: "🐸", RED: "🦡", BLUE: "🦉", TAN: "🐰", PURPLE: "🦅" },
   CONSTRUCTION: { GREEN: "🌾", RED: "🏠", BLUE: "🏛️", TAN: "🛒", PURPLE: "🏰" },
 }
+const CARD_BADGE_CLASS: Record<string, string> = {
+  GREEN: styles.badgeGREEN, RED: styles.badgeRED,
+  BLUE: styles.badgeBLUE, TAN: styles.badgeTAN, PURPLE: styles.badgePURPLE,
+}
+const CARD_TYPE_ICON: Record<string, string> = {
+  GREEN: "🌿", RED: "🐾", BLUE: "📜", TAN: "🦋", PURPLE: "🌸",
+}
 
 const BASIC_LOCATIONS: Array<{ id: string; label: string; rewards: RewardItem[] }> = [
   { id: "TWIGS",       label: "Výrubisko",  rewards: [{ type: "twigs",   count: 2 }] },
@@ -143,34 +150,43 @@ function CardTile({
   return (
     <div className={cls} onClick={!disabled && onClick ? onClick : undefined}>
       {card && <div className={`${styles.cardStripe} ${CARD_STRIPE_CLASS[card.color] ?? ""}`} />}
-      <div className={styles.cardHead}>
-        <span className={styles.cardTypeIcon}>{isCritter ? "🐾" : "🏚️"}</span>
-        <div className={styles.costPips}>
+
+      {/* Top section: vertical cost column (left) + illustration (right) */}
+      <div className={styles.cardTop}>
+        <div className={styles.cardCostCol}>
           {card && Array.from({ length: card.cost.twigs   ?? 0 }, (_, i) => <Pip key={`t${i}`} type="twigs"   />)}
           {card && Array.from({ length: card.cost.resin   ?? 0 }, (_, i) => <Pip key={`r${i}`} type="resin"   />)}
           {card && Array.from({ length: card.cost.pebbles ?? 0 }, (_, i) => <Pip key={`p${i}`} type="pebbles" />)}
           {card && Array.from({ length: card.cost.berries ?? 0 }, (_, i) => <Pip key={`b${i}`} type="berries" />)}
-          {card && !hasCost && <span className={styles.pipFree}>⭐</span>}
+          {card && !hasCost && <span className={styles.pipFree}>✦</span>}
+          {card && isCritter && card.pairedWith && (
+            <span className={styles.pairedHint} title="Spárováno se stavbou">🏚</span>
+          )}
+        </div>
+        <div className={`${styles.cardArt} ${card ? (CARD_ART_CLASS[card.color] ?? "") : ""}`}>
+          {card ? (CARD_ART_EMOJI[card.type]?.[card.color] ?? "?") : "?"}
         </div>
       </div>
 
-      <div className={`${styles.cardArt} ${card ? (CARD_ART_CLASS[card.color] ?? "") : ""}`}>
-        {card ? (CARD_ART_EMOJI[card.type]?.[card.color] ?? "?") : "?"}
+      {/* Name row: type badge + name + VP circle */}
+      <div className={styles.cardNameRow}>
+        {card && (
+          <span className={`${styles.cardTypeBadge} ${CARD_BADGE_CLASS[card.color] ?? ""}`}>
+            {CARD_TYPE_ICON[card.color] ?? ""}
+          </span>
+        )}
+        <span className={styles.cardName}>{card?.name ?? cardId}</span>
+        {card && <div className={styles.vpCircle}>{card.points}</div>}
       </div>
 
-      <div className={styles.cardName}>{card?.name ?? cardId}</div>
-
       {card && (
-        <>
-          <div className={styles.cardSep} />
-          {showEffect
-            ? <div className={styles.cardFx}>{card.effectText}</div>
-            : <div className={styles.cardFxSpacer} />
-          }
-          <div className={styles.cardFoot}>
-            <div className={styles.vpCircle}>{card.points}</div>
-          </div>
-        </>
+        <div className={styles.cardSubtype}>
+          {card.unique ? "jedinečný" : "běžný"} {isCritter ? "tvor" : "stavba"}
+        </div>
+      )}
+
+      {card && showEffect && (
+        <div className={styles.cardFx}>{card.effectText}</div>
       )}
 
       {actionLabel && onClick && !disabled && (

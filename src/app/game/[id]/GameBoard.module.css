@@ -422,28 +422,40 @@
 .cardDisabled { opacity: 0.38; cursor: default; }
 .cardDisabled:hover { transform: none !important; box-shadow: none !important; }
 
-.cardHead {
+/* ── CARD TOP: cost column left + illustration right ── */
+.cardTop {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 5px 5px 0;
+  flex-direction: row;
+  flex: 1.6;
+  min-height: 0;
+  overflow: hidden;
 }
-.cardTypeIcon { font-size: 13px; line-height: 1; }
-.costPips {
-  display: flex; gap: 2px; flex-wrap: wrap;
-  justify-content: flex-end; max-width: 52px;
+.cardCostCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  padding: 4px 2px;
+  background: rgba(0,0,0,0.14);
+  border-right: 1px solid rgba(0,0,0,0.22);
+  width: 17px;
+  flex-shrink: 0;
 }
-.pipFree { font-size: 9px; opacity: .6; }
+.pipFree { font-size: 8px; opacity: .55; }
+.pairedHint {
+  margin-top: auto;
+  font-size: 7px;
+  opacity: 0.4;
+  padding-top: 2px;
+  line-height: 1;
+}
 
 .cardArt {
-  margin: 4px 5px 3px;
-  border-radius: 5px;
+  flex: 1;
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
-  flex: 1.4;
-  min-height: 40px;
-  border: 1px solid rgba(0,0,0,0.2);
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+  font-size: 26px;
+  border: none;
 }
 .cardArtGREEN  { background: linear-gradient(135deg, #4a7c3f 0%, #2d5a25 100%); }
 .cardArtRED    { background: linear-gradient(135deg, #7a2020 0%, #501010 100%); }
@@ -451,45 +463,73 @@
 .cardArtTAN    { background: linear-gradient(135deg, #7a6020 0%, #5a4010 100%); }
 .cardArtPURPLE { background: linear-gradient(135deg, #5a1a7a 0%, #3a0a5a 100%); }
 
+/* ── CARD NAME ROW: type badge + name + VP ── */
+.cardNameRow {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 4px 2px;
+  border-top: 1px solid rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+.cardTypeBadge {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 6px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.badgeGREEN  { background: #1b5e20; color: #fff; }
+.badgeRED    { background: #7f0000; color: #fff; }
+.badgeBLUE   { background: #0d2a6e; color: #fff; }
+.badgeTAN    { background: #5a4000; color: #fff; }
+.badgePURPLE { background: #4a148c; color: #fff; }
+
 .cardName {
-  text-align: center;
+  flex: 1;
   font-weight: 800;
-  font-size: 9px;
-  padding: 2px 5px;
+  font-size: 8px;
   line-height: 1.2;
-  background: rgba(0,0,0,0.12);
-  margin: 0 3px;
-  border-radius: 3px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.cardSep { height: 1px; background: rgba(0,0,0,.15); margin: 0 5px; }
+.vpCircle {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffd54f, #f9a825 55%, #e65100);
+  color: #1a0800; font-weight: 900; font-size: 10px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid #a05000;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  flex-shrink: 0;
+}
+
+.cardSubtype {
+  font-size: 6px;
+  font-weight: 600;
+  opacity: 0.5;
+  letter-spacing: 0.3px;
+  padding: 0 4px 1px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
 
 .cardFx {
   font-size: 8px;
   padding: 2px 5px;
   line-height: 1.35;
-  opacity: .8;
+  opacity: .82;
   flex: 1;
-}
-.cardFxSpacer { flex: 1; }
-
-.cardFoot {
-  display: flex; justify-content: flex-end;
-  padding: 2px 5px 4px;
-}
-
-.vpCircle {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffd54f, #f9a825 55%, #e65100);
-  color: #1a0800; font-weight: 900; font-size: 11px;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid #a05000;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  overflow: hidden;
 }
 
 .cardActionOverlay {
-  position: absolute; bottom: 26px; left: 0; right: 0;
+  position: absolute; bottom: 0; left: 0; right: 0;
   text-align: center;
   font-size: 7px; font-weight: 800;
   background: rgba(125,189,110,.9);
