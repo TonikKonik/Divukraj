@@ -209,6 +209,129 @@ function CardTile({
   )
 }
 
+// ── Board SVG Illustration ───────────────────────────────────────────────────
+function BoardIllustration() {
+  return (
+    <svg
+      className={styles.boardIllustration}
+      viewBox="0 0 1200 380"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="biBoardBg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#c8a860" />
+          <stop offset="100%" stopColor="#a88040" />
+        </linearGradient>
+        <linearGradient id="biForest" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#1c3c12" />
+          <stop offset="100%" stopColor="#0c2008" />
+        </linearGradient>
+        <linearGradient id="biMeadow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#3a6828" />
+          <stop offset="100%" stopColor="#2a5018" />
+        </linearGradient>
+        <linearGradient id="biRiver" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#1e3e5a" />
+          <stop offset="100%" stopColor="#0e2030" />
+        </linearGradient>
+      </defs>
+
+      {/* Board base: parchment */}
+      <rect width="1200" height="380" rx="14" fill="url(#biBoardBg)" />
+
+      {/* Prastrom forest zone (left) */}
+      <rect x="0" y="0" width="244" height="380" rx="14" fill="url(#biForest)" />
+      <rect x="230" y="0" width="14" height="380" fill="url(#biForest)" />
+
+      {/* Meadow zone (top right) */}
+      <rect x="244" y="0" width="956" height="240" fill="url(#biMeadow)" />
+
+      {/* River/locations zone (bottom right) */}
+      <rect x="244" y="240" width="956" height="140" fill="url(#biRiver)" />
+
+      {/* Meadow–river separator */}
+      <path d="M 248 240 L 1196 240" stroke="#3a6418" strokeWidth="2" strokeOpacity="0.45" />
+
+      {/* River water shimmer */}
+      <path d="M 270 262 C 440 252, 600 274, 760 260 C 900 247, 1060 270, 1185 258"
+            stroke="#4a8ab8" strokeWidth="7" fill="none" strokeOpacity="0.22" strokeLinecap="round" />
+      <path d="M 285 290 C 450 280, 610 298, 770 284 C 910 271, 1070 292, 1185 282"
+            stroke="#4a8ab8" strokeWidth="4" fill="none" strokeOpacity="0.15" strokeLinecap="round" />
+      <path d="M 300 318 C 460 309, 620 326, 780 313 C 930 300, 1080 318, 1185 310"
+            stroke="#4a8ab8" strokeWidth="3" fill="none" strokeOpacity="0.1" strokeLinecap="round" />
+
+      {/* Forest zone separator */}
+      <path d="M 241 8 L 241 372" stroke="#5a3a10" strokeWidth="2" strokeOpacity="0.38" />
+
+      {/* Ever Tree trunk */}
+      <rect x="112" y="216" width="18" height="96" rx="4" fill="#6a4018" />
+      {/* Ever Tree crown – layered circles */}
+      <circle cx="121" cy="210" r="72" fill="#122e0e" />
+      <circle cx="121" cy="183" r="59" fill="#1a3e14" />
+      <circle cx="121" cy="160" r="47" fill="#244e1c" />
+      <circle cx="121" cy="140" r="35" fill="#2e5e22" />
+      <circle cx="121" cy="123" r="23" fill="#386e28" />
+      <circle cx="121" cy="110" r="13" fill="#427e2e" />
+      {/* Tree highlight */}
+      <circle cx="108" cy="100" r="7" fill="#5a9a40" fillOpacity="0.3" />
+
+      {/* Roots */}
+      <path d="M 106 312 C 68 334, 44 356, 34 376" stroke="#4a2c08" strokeWidth="6" fill="none" strokeOpacity="0.48" strokeLinecap="round" />
+      <path d="M 121 314 C 114 346, 110 362, 108 377" stroke="#4a2c08" strokeWidth="5" fill="none" strokeOpacity="0.42" strokeLinecap="round" />
+      <path d="M 137 312 C 164 334, 178 357, 182 376" stroke="#4a2c08" strokeWidth="6" fill="none" strokeOpacity="0.48" strokeLinecap="round" />
+
+      {/* Smaller trees – Prastrom zone */}
+      <rect x="36" y="318" width="8" height="34" rx="2" fill="#6a4018" fillOpacity="0.6" />
+      <circle cx="40" cy="316" r="24" fill="#162e0e" fillOpacity="0.55" />
+      <circle cx="40" cy="302" r="18" fill="#1e3e14" fillOpacity="0.55" />
+
+      <rect x="188" y="324" width="7" height="28" rx="2" fill="#6a4018" fillOpacity="0.45" />
+      <circle cx="192" cy="323" r="18" fill="#162e0e" fillOpacity="0.4" />
+      <circle cx="192" cy="312" r="13" fill="#1e3e14" fillOpacity="0.4" />
+
+      {/* Mushroom in forest zone */}
+      <rect x="58" y="246" width="6" height="14" rx="1" fill="#d4c090" fillOpacity="0.32" />
+      <ellipse cx="61" cy="245" rx="13" ry="7" fill="#c04030" fillOpacity="0.38" />
+      <ellipse cx="56" cy="243" rx="4" ry="2.5" fill="#f06050" fillOpacity="0.28" />
+
+      {/* Vine on divider */}
+      <path d="M 238 30 C 244 55, 234 80, 242 108 C 250 136, 236 162, 242 190"
+            stroke="#3a6820" strokeWidth="2" fill="none" strokeOpacity="0.38" />
+
+      {/* Meadow flowers */}
+      <circle cx="340" cy="88" r="6" fill="#f0e050" fillOpacity="0.42" />
+      <circle cx="340" cy="88" r="3" fill="#c8a820" fillOpacity="0.5" />
+      <circle cx="490" cy="148" r="6" fill="#f0a060" fillOpacity="0.38" />
+      <circle cx="490" cy="148" r="3" fill="#c87030" fillOpacity="0.45" />
+      <circle cx="690" cy="68" r="5" fill="#f0e050" fillOpacity="0.36" />
+      <circle cx="690" cy="68" r="2.5" fill="#c8a820" fillOpacity="0.4" />
+      <circle cx="840" cy="136" r="6" fill="#f080c0" fillOpacity="0.32" />
+      <circle cx="840" cy="136" r="3" fill="#c05090" fillOpacity="0.38" />
+      <circle cx="1010" cy="98" r="5" fill="#f0e050" fillOpacity="0.3" />
+      <circle cx="1110" cy="158" r="6" fill="#f0a060" fillOpacity="0.28" />
+
+      {/* Meadow grass tufts at meadow bottom edge */}
+      <path d="M 325 234 L 323 220 M 331 235 L 332 221 M 337 234 L 336 222"
+            stroke="#4a7830" strokeWidth="2" fill="none" strokeOpacity="0.38" />
+      <path d="M 614 236 L 612 222 M 620 237 L 621 223 M 626 236 L 625 224"
+            stroke="#4a7830" strokeWidth="2" fill="none" strokeOpacity="0.32" />
+      <path d="M 912 235 L 910 221 M 918 236 L 919 222 M 924 235 L 923 223"
+            stroke="#4a7830" strokeWidth="2" fill="none" strokeOpacity="0.28" />
+
+      {/* River stones */}
+      <ellipse cx="410" cy="334" rx="10" ry="5" fill="#788a92" fillOpacity="0.26" />
+      <ellipse cx="650" cy="352" rx="8" ry="4.5" fill="#788a92" fillOpacity="0.2" />
+      <ellipse cx="880" cy="330" rx="11" ry="5.5" fill="#788a92" fillOpacity="0.2" />
+      <ellipse cx="1100" cy="348" rx="9" ry="5" fill="#788a92" fillOpacity="0.18" />
+
+      {/* Board outer border */}
+      <rect x="2" y="2" width="1196" height="376" rx="13" fill="none" stroke="#7a5010" strokeWidth="5" strokeOpacity="0.72" />
+      <rect x="7" y="7" width="1186" height="366" rx="10" fill="none" stroke="#d8a848" strokeWidth="1.5" strokeOpacity="0.25" />
+    </svg>
+  )
+}
+
 // ── ResBar ────────────────────────────────────────────────────────────────────
 function ResBar({ twigs, resin, pebbles, berries }: {
   twigs: number; resin: number; pebbles: number; berries: number
@@ -357,6 +480,7 @@ export default function GameBoard({
 
         {/* ── HERNÍ DESKA (fyzická deska hry na stole) ── */}
         <div className={styles.herniDeska}>
+          <BoardIllustration />
 
           {/* LEFT: PRASTROM */}
           <aside className={styles.treePanel}>
