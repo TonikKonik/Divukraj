@@ -37,7 +37,7 @@ jobs:
           script: |
             set -e
             cd /var/www/divukraj
-            git pull origin main
+            git fetch origin main && git reset --hard origin/main
             if [ ! -f package.json ]; then
               echo "No package.json – app not initialized yet, skipping deploy."
               exit 0
