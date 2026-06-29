@@ -269,30 +269,26 @@
   position: absolute;
   left: 1%;
   top: 6%;
-  width: 21%;
+  width: 13%;
   bottom: 12%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 4px;
+  justify-content: space-around;
+  gap: 3px;
   padding: 4px 0;
-  overflow: hidden;
 }
 
 .locSlot {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 10px 4px 8px;
+  padding: 6px 8px;
   border-radius: 6px;
   border: 1px solid transparent;
   transition: filter 0.12s, border-color 0.12s;
   cursor: default;
   position: relative;
   overflow: hidden;
-  aspect-ratio: 3 / 2;
-  flex-shrink: 1;
-  min-height: 0;
 }
 
 .locTileBg {
