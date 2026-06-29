@@ -104,6 +104,7 @@
   flex: 1;
   display: flex;
   min-height: 0;
+  background: url('/images/forest-bg.jpg') center / cover no-repeat;
 }
 
 /* ── SIDEBAR PANEL ── */
@@ -111,10 +112,9 @@
   width: 280px;
   flex-shrink: 0;
   position: relative;
-  background: url('/images/sidebar-bg.jpg') right top / cover no-repeat;
+  background: transparent;
   overflow: hidden;
-  border-right: 3px solid rgba(50,25,5,0.85);
-  box-shadow: 3px 0 18px rgba(0,0,0,0.75);
+  border-right: 1px solid rgba(200,160,60,0.2);
 }
 
 /* Player rows zone */
@@ -252,7 +252,7 @@
   min-width: 0;
   min-height: 0;
   position: relative;
-  background: url('/images/forest-bg.jpg') center / cover no-repeat;
+  background: transparent;
 }
 
 /* ── BOARD PANEL ── */
