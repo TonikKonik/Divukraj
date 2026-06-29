@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import { CARDS, COLOR_LABELS } from "@/lib/cards"
 import type { CardColor } from "@/lib/cards"
 import styles from "./GameBoard.module.css"
@@ -81,14 +81,11 @@ function CardTile({
   const card = CARDS[cardId]
   const color = card ? CARD_COLOR_HEX[card.color] ?? "#666" : "#555"
 
-  const costParts: string[] = []
-  if (card?.cost.twigs)   costParts.push(`🪵${card.cost.twigs}`)
-  if (card?.cost.resin)   costParts.push(`🫧${card.cost.resin}`)
-  if (card?.cost.pebbles) costParts.push(`🪨${card.cost.pebbles}`)
-  if (card?.cost.berries) costParts.push(`🫐${card.cost.berries}`)
-  const costStr = card
-    ? (costParts.length ? costParts.join(" ") : "Zdarma")
-    : "?"
+  const costParts: React.ReactNode[] = []
+  if (card?.cost.twigs)   costParts.push(<ResIcon key="tw" type="twigs"   count={card.cost.twigs}   sm />)
+  if (card?.cost.resin)   costParts.push(<ResIcon key="re" type="resin"   count={card.cost.resin}   sm />)
+  if (card?.cost.pebbles) costParts.push(<ResIcon key="pe" type="pebbles" count={card.cost.pebbles} sm />)
+  if (card?.cost.berries) costParts.push(<ResIcon key="be" type="berries" count={card.cost.berries} sm />)
 
   return (
     <div
@@ -111,7 +108,9 @@ function CardTile({
               <span className={styles.coinNum}>{card.points}</span>
             </span>
           </div>
-          <div className={styles.cardCost}>{costStr}</div>
+          <div className={styles.cardCost}>
+            {costParts.length ? costParts : "Zdarma"}
+          </div>
           {showEffect && <div className={styles.cardEffect}>{card.effectText}</div>}
         </>
       )}
@@ -122,16 +121,36 @@ function CardTile({
   )
 }
 
+// ── Resource icon ─────────────────────────────────────────────────────────────
+const RES_ICONS: Record<string, string> = {
+  twigs:   '/images/icon-wood.png',
+  resin:   '/images/icon-resin.png',
+  pebbles: '/images/icon-pebble.png',
+  berries: '/images/icon-berry.png',
+  card:    '/images/icon-card.png',
+}
+const RES_LABELS: Record<string, string> = {
+  twigs: 'Větvičky', resin: 'Pryskyřice', pebbles: 'Kamínky', berries: 'Bobule', card: 'Karta',
+}
+function ResIcon({ type, count, sm }: { type: string; count?: number; sm?: boolean }) {
+  return (
+    <span className={styles.resIcon} title={RES_LABELS[type]}>
+      <img src={RES_ICONS[type]} className={sm ? styles.resImgSm : styles.resImg} alt={type} />
+      {count !== undefined && <b>{count}</b>}
+    </span>
+  )
+}
+
 // ── Resources display ─────────────────────────────────────────────────────────
 function Resources({ twigs, resin, pebbles, berries }: {
   twigs: number; resin: number; pebbles: number; berries: number
 }) {
   return (
     <div className={styles.resources}>
-      <span title="Větvičky">🪵<b>{twigs}</b></span>
-      <span title="Pryskyřice">🫧<b>{resin}</b></span>
-      <span title="Kamínky">🪨<b>{pebbles}</b></span>
-      <span title="Bobule">🫐<b>{berries}</b></span>
+      <ResIcon type="twigs"   count={twigs} />
+      <ResIcon type="resin"   count={resin} />
+      <ResIcon type="pebbles" count={pebbles} />
+      <ResIcon type="berries" count={berries} />
     </div>
   )
 }
@@ -275,7 +294,7 @@ export default function GameBoard({
                       {p.username}{isMe ? " ★" : ""}{isCurrentP ? " ←" : ""}
                     </div>
                     <div className={styles.sidePlayerRes}>
-                      🪵{p.twigs} 🫧{p.resin} 🪨{p.pebbles} 🫐{p.berries}
+                      <ResIcon type="twigs" count={p.twigs} sm /> <ResIcon type="resin" count={p.resin} sm /> <ResIcon type="pebbles" count={p.pebbles} sm /> <ResIcon type="berries" count={p.berries} sm />
                     </div>
                     <div className={styles.sidePlayerMini}>
                       🃏{handCount} &nbsp;🏘️{p.cityCards.length}/15 &nbsp;👷{p.workers.length}/2
