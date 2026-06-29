@@ -252,7 +252,7 @@
   min-width: 0;
   min-height: 0;
   position: relative;
-  background: url('/images/forest-bg.png') center / cover no-repeat;
+  background: url('/images/forest-bg.jpg') center / cover no-repeat;
 }
 
 /* ── BOARD PANEL ── */
