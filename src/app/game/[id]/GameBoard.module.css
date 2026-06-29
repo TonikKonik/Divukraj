@@ -282,21 +282,24 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 5px;
-  border-radius: 8px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 6px;
   border: 1px solid transparent;
-  transition: background 0.12s, border-color 0.12s;
+  transition: filter 0.12s, border-color 0.12s;
   cursor: default;
+  background: url('/images/loc-tile.png') center / cover no-repeat;
+  position: relative;
+  mix-blend-mode: multiply;
 }
 
 .locSlotActive {
   cursor: pointer;
-  border-color: rgba(125, 189, 110, 0.6);
-  background: rgba(125, 189, 110, 0.1);
+  border-color: rgba(125, 189, 110, 0.7);
+  filter: brightness(1.08);
 }
 
 .locSlotActive:hover {
-  background: rgba(125, 189, 110, 0.2);
+  filter: brightness(1.15);
 }
 
 .locIcon {
@@ -311,16 +314,16 @@
 }
 
 .locName {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.7rem;
-  color: #c8a030;
+  color: #3a1a00;
   white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(255,220,120,0.4);
 }
 
 .locGain {
-  font-size: 0.6rem;
-  color: #a88020;
-  opacity: 0.85;
+  font-size: 0.58rem;
+  color: #5a3010;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
