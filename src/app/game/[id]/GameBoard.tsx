@@ -370,6 +370,7 @@ export default function GameBoard({
                     className={`${styles.locSlot} ${canPlace ? styles.locSlotActive : ""}`}
                     onClick={canPlace ? () => doAction({ type: "DEPLOY_WORKER", location: loc.id }) : undefined}
                   >
+                    <img src="/images/loc-tile.png" className={styles.locTileBg} alt="" />
                     <span className={styles.locIcon}>{loc.icon}</span>
                     <div className={styles.locInfo}>
                       <div className={styles.locName}>{loc.label}</div>
