@@ -111,7 +111,7 @@
   width: 280px;
   flex-shrink: 0;
   position: relative;
-  background: url('/images/sidebar-bg.png') center top / cover no-repeat;
+  background: url('/images/sidebar-bg.jpg') right top / cover no-repeat;
   overflow: hidden;
   border-right: 3px solid rgba(50,25,5,0.85);
   box-shadow: 3px 0 18px rgba(0,0,0,0.75);
