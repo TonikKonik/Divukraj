@@ -43,6 +43,7 @@ jobs:
               exit 0
             fi
             pm2 delete divukraj 2>/dev/null || true
+            rm -rf node_modules
             npm ci
             [ -f prisma/schema.prisma ] && npx prisma generate && npx prisma db push --accept-data-loss || true
             npm run build
