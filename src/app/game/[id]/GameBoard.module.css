@@ -243,13 +243,15 @@
   flex-direction: column;
   min-width: 0;
   min-height: 0;
+  position: relative;
+  background: url('/images/forest-bg.png') center / cover no-repeat;
 }
 
-/* ── BOARD PANEL (board.png) ── */
+/* ── BOARD PANEL ── */
 .boardPanel {
   flex: 55;
   position: relative;
-  background: url('/images/board.png') center / 100% 100% no-repeat;
+  background: transparent;
   min-height: 0;
   overflow: hidden;
 }
@@ -438,11 +440,11 @@
 .scoreName { flex: 1; }
 .scoreVal { font-weight: 700; }
 
-/* ── PLAYER PANEL (player.png) ── */
+/* ── PLAYER PANEL ── */
 .playerPanel {
   flex: 45;
   position: relative;
-  background: url('/images/player.jpg') center / 100% 100% no-repeat;
+  background: transparent;
   min-height: 0;
   overflow: hidden;
 }
