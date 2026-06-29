@@ -111,18 +111,17 @@
   width: 300px;
   flex-shrink: 0;
   position: relative;
-  background: url('/images/sidebar.png') top center / 100% 100% no-repeat;
+  background: url('/images/sidebar.jpg') top center / 100% 100% no-repeat;
   overflow: hidden;
 }
 
-/* Player rows zone — maps to PŘEHLED HRÁČŮ in sidebar.png */
-/* Positions tuned to match the PNG's 4 player row slots */
+/* Player rows zone — maps to PŘEHLED HRÁČŮ in sidebar.jpg */
 .sidePlayersArea {
   position: absolute;
-  top: 22%;
+  top: 31%;
   left: 8%;
   right: 4%;
-  height: 30%;
+  height: 36%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -183,10 +182,10 @@
 /* STAV HRY zone */
 .sideStatusArea {
   position: absolute;
-  top: 53%;
+  top: 70%;
   left: 10%;
   right: 6%;
-  height: 10%;
+  height: 11%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -206,10 +205,10 @@
 /* POSLEDNÍ AKCE zone */
 .sideLogArea {
   position: absolute;
-  top: 64%;
+  top: 82%;
   left: 11%;
   right: 7%;
-  height: 19%;
+  height: 10%;
   overflow-y: auto;
   display: flex;
   align-items: center;
@@ -226,10 +225,10 @@
 /* RYCHLÉ AKCE zone */
 .sideActionsArea {
   position: absolute;
-  top: 85%;
+  top: 93%;
   left: 8%;
   right: 4%;
-  height: 12%;
+  height: 6%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -443,7 +442,7 @@
 .playerPanel {
   flex: 45;
   position: relative;
-  background: url('/images/player.png') center / 100% 100% no-repeat;
+  background: url('/images/player.jpg') center / 100% 100% no-repeat;
   min-height: 0;
   overflow: hidden;
 }
