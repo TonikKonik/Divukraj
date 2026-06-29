@@ -54,12 +54,12 @@ const CARD_COLOR_HEX: Record<CardColor, string> = {
 }
 
 const BASIC_LOCATIONS = [
-  { id: "TWIGS",       label: "Les",    icon: "🌲", gain: "🪵🪵 2 větvičky" },
-  { id: "RESIN",       label: "Bažina", icon: "🏔️", gain: "🫧 1 pryskyřice" },
-  { id: "PEBBLES",     label: "Jeskyně",icon: "🪨", gain: "🪨 1 kamínek" },
-  { id: "BERRIES",     label: "Zahrada",icon: "🌿", gain: "🫐🫐 2 bobule" },
-  { id: "CARDS",       label: "Rybník", icon: "🐟", gain: "🃏🃏 2 karty" },
-  { id: "CARDS_TWIGS", label: "Keře",   icon: "🌾", gain: "🃏 1 karta + 🪵 1 větvička" },
+  { id: "TWIGS",       label: "Les",     icon: "🌲", gain: "🪵🪵 2 větvičky" },
+  { id: "RESIN",       label: "Bažina",  icon: "🏔️", gain: "🫧 1 pryskyřice" },
+  { id: "PEBBLES",     label: "Jeskyně", icon: "🪨", gain: "🪨 1 kamínek" },
+  { id: "BERRIES",     label: "Zahrada", icon: "🌿", gain: "🫐🫐 2 bobule" },
+  { id: "CARDS",       label: "Rybník",  icon: "🐟", gain: "🃏🃏 2 karty" },
+  { id: "CARDS_TWIGS", label: "Keře",    icon: "🌾", gain: "🃏 karta + 🪵 větvička" },
 ]
 
 // ── Card component ────────────────────────────────────────────────────────────
@@ -194,11 +194,9 @@ export default function GameBoard({
   if (!state) return <div className={styles.centered}>Načítám hru…</div>
 
   const me = state.players.find((p) => p.userId === currentUserId)
-  const others = state.players.filter((p) => p.userId !== currentUserId)
   const currentPlayer = state.players[state.currentPlayerIdx]
   const isMyTurn = currentPlayer?.userId === currentUserId
 
-  // Workers by location
   const workersByLoc: Record<string, PlayerInfo[]> = {}
   for (const player of state.players) {
     for (const w of player.workers) {
@@ -210,7 +208,6 @@ export default function GameBoard({
   const myDeployed = me?.workers.length ?? 0
   const canDeployWorker = isMyTurn && myDeployed < 2 && !busy
 
-  // Can I afford a card?
   function canAfford(cardId: string): boolean {
     if (!me) return false
     const card = CARDS[cardId]
@@ -226,18 +223,18 @@ export default function GameBoard({
   }
 
   return (
-    <div className={styles.board}>
+    <div className={styles.gamePage}>
 
       {/* ── TOP BAR ── */}
       <header className={styles.topBar}>
+        <span className={styles.gameTitle}>✦ DIVUKRAJ ✦</span>
         <span className={styles.seasonBadge}>{SEASON_LABELS[state.season] ?? state.season}</span>
         <span className={styles.turnBadge} data-myturn={isMyTurn}>
-          {isMyTurn ? "Tvůj tah" : `Na tahu: ${currentPlayer?.username ?? "?"}`}
+          {isMyTurn ? "✦ Tvůj tah" : `Na tahu: ${currentPlayer?.username ?? "?"}`}
         </span>
         <span className={styles.deckBadge}>Balíček {state.deckSize} · Odložené {state.discardSize}</span>
       </header>
 
-      {/* ── ACTION ERROR ── */}
       {actionError && (
         <div className={styles.actionError}>
           {actionError}
@@ -245,156 +242,272 @@ export default function GameBoard({
         </div>
       )}
 
-      {/* ── OPPONENTS ── */}
-      {others.length > 0 && (
-        <section className={styles.opponents}>
-          {others.map((p) => (
-            <div key={p.userId} className={styles.opponentCard}>
-              <div className={styles.opponentName} style={{ borderLeftColor: PLAYER_COLOR_HEX[p.color] ?? "#888" }}>
-                {p.username}
-                {currentPlayer?.userId === p.userId && <span className={styles.onTurnDot} />}
-              </div>
-              <Resources {...p} />
-              <div className={styles.opponentCity}>
-                {p.cityCards.map((cid, i) => {
-                  const c = CARDS[cid]
-                  return <div key={i} className={styles.cityPip} style={{ background: c ? CARD_COLOR_HEX[c.color] : "#444" }} title={c?.name ?? cid} />
-                })}
-                {p.cityCards.length === 0 && <span className={styles.dimText}>prázdné město</span>}
-              </div>
-              <span className={styles.dimText}>{p.handSize} karet v ruce</span>
-            </div>
-          ))}
-        </section>
-      )}
+      <div className={styles.gameLayout}>
 
-      {/* ── LOCATIONS ── */}
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Herní deska</h2>
-        <div className={styles.locations}>
-          {BASIC_LOCATIONS.map((loc) => {
-            const workers = workersByLoc[loc.id] ?? []
-            const myWorkerHere = workers.some((w) => w.userId === currentUserId)
-            const canPlace = canDeployWorker && !myWorkerHere
-            return (
-              <div
-                key={loc.id}
-                className={`${styles.location} ${canPlace ? styles.locationActive : ""}`}
-                onClick={canPlace ? () => doAction({ type: "DEPLOY_WORKER", location: loc.id }) : undefined}
-              >
-                <div className={styles.locationIcon}>{loc.icon}</div>
-                <div className={styles.locationName}>{loc.label}</div>
-                <div className={styles.locationGain}>{loc.gain}</div>
-                <div className={styles.locationWorkers}>
-                  {workers.map((w, i) => (
-                    <span key={i} className={styles.workerDot} style={{ background: PLAYER_COLOR_HEX[w.color] ?? "#888" }} title={w.username} />
-                  ))}
+        {/* ── SIDEBAR PANEL (sidebar.png) ── */}
+        <aside className={styles.sidePanel}>
+
+          {/* PŘEHLED HRÁČŮ — overlaid on PNG player rows */}
+          <div className={styles.sidePlayersArea}>
+            {state.players.map((p) => {
+              const isCurrentP = currentPlayer?.userId === p.userId
+              const isMe = p.userId === currentUserId
+              const handCount = isMe ? state.myHand.length : (p.handSize ?? 0)
+              return (
+                <div
+                  key={p.userId}
+                  className={`${styles.sidePlayer} ${isCurrentP ? styles.sidePlayerActive : ""}`}
+                >
+                  <div
+                    className={styles.sideAvatar}
+                    style={{
+                      borderColor: PLAYER_COLOR_HEX[p.color] ?? "#888",
+                      background: (PLAYER_COLOR_HEX[p.color] ?? "#888") + "33",
+                    }}
+                  />
+                  <div className={styles.sidePlayerInfo}>
+                    <div className={styles.sidePlayerName}>
+                      {p.username}{isMe ? " ★" : ""}{isCurrentP ? " ←" : ""}
+                    </div>
+                    <div className={styles.sidePlayerRes}>
+                      🪵{p.twigs} 🫧{p.resin} 🪨{p.pebbles} 🫐{p.berries}
+                    </div>
+                    <div className={styles.sidePlayerMini}>
+                      🃏{handCount} &nbsp;🏘️{p.cityCards.length}/15 &nbsp;👷{p.workers.length}/2
+                    </div>
+                  </div>
                 </div>
-                {canPlace && <div className={styles.locationCta}>Nasadit 🐿️</div>}
+              )
+            })}
+            {/* Empty slots for up to 4 players */}
+            {Array.from({ length: Math.max(0, 4 - state.players.length) }, (_, i) => (
+              <div key={`empty-${i}`} className={styles.sidePlayerEmpty} />
+            ))}
+          </div>
+
+          {/* STAV HRY */}
+          <div className={styles.sideStatusArea}>
+            <div className={styles.sideStatusRow}>
+              Sezóna: <strong>{SEASON_LABELS[state.season]}</strong>
+            </div>
+            <div className={styles.sideStatusRow}>
+              Na tahu: <strong>{isMyTurn ? "Ty" : currentPlayer?.username ?? "?"}</strong>
+            </div>
+            {me && (
+              <div className={styles.sideStatusRow}>
+                Dělníci: <strong>{myDeployed}/2</strong>
               </div>
-            )
-          })}
-        </div>
-      </section>
+            )}
+          </div>
 
-      {/* ── MEADOW ── */}
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Louka ({state.meadow.length} karet)</h2>
-        <div className={styles.cardRow}>
-          {state.meadow.map((cardId, i) => {
-            const selected = selectedMeadowIdx === i
-            const affordable = canAfford(cardId)
-            return (
-              <CardTile
-                key={`meadow-${i}`}
-                cardId={cardId}
-                showEffect={selected}
-                highlight={selected}
-                disabled={!isMyTurn || !affordable || busy}
-                onClick={isMyTurn && affordable ? () => {
-                  if (selected) {
-                    doAction({ type: "PLAY_CARD", cardId, fromMeadow: true, meadowIdx: i })
-                  } else {
-                    setSelectedHandIdx(null)
-                    setSelectedMeadowIdx(i)
-                  }
-                } : undefined}
-                actionLabel={selected ? "Zahrát z Louky" : "Vybrat"}
-              />
-            )
-          })}
-        </div>
-        {selectedMeadowIdx !== null && (
-          <button className={styles.cancelBtn} onClick={() => setSelectedMeadowIdx(null)}>Zrušit výběr</button>
-        )}
-      </section>
+          {/* POSLEDNÍ AKCE */}
+          <div className={styles.sideLogArea}>
+            <div className={styles.logPlaceholder}>— zatím bez logu akcí —</div>
+          </div>
 
-      {/* ── MY AREA ── */}
-      {me && (
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>
-            {me.username}
-            {isMyTurn && <span className={styles.myTurnTag}> — na tahu</span>}
-          </h2>
-
-          <Resources {...me} />
-
-          {/* Action buttons */}
-          {isMyTurn && (
-            <div className={styles.actionRow}>
-              <span className={styles.dimText}>Dělníci: {myDeployed}/2</span>
+          {/* RYCHLÉ AKCE */}
+          <div className={styles.sideActionsArea}>
+            {isMyTurn && (
               <button
                 className={styles.seasonBtn}
                 onClick={() => doAction({ type: "PREPARE_SEASON" })}
                 disabled={busy}
               >
-                🍂 Příprava na sezónu
+                🍂 Příchod sezóny
               </button>
-            </div>
-          )}
-
-          {/* My city */}
-          {me.cityCards.length > 0 && (
-            <>
-              <h3 className={styles.subTitle}>Moje město ({me.cityCards.length}/15)</h3>
-              <div className={styles.cardRow}>
-                {me.cityCards.map((cid, i) => <CardTile key={`city-${i}`} cardId={cid} />)}
-              </div>
-            </>
-          )}
-
-          {/* Hand */}
-          <h3 className={styles.subTitle}>Ruka ({state.myHand.length} karet)</h3>
-          <div className={styles.cardRow}>
-            {state.myHand.map((cardId, i) => {
-              const selected = selectedHandIdx === i
-              const affordable = canAfford(cardId)
-              return (
-                <CardTile
-                  key={`hand-${i}`}
-                  cardId={cardId}
-                  showEffect
-                  highlight={selected}
-                  disabled={!isMyTurn || !affordable || busy}
-                  onClick={isMyTurn && affordable ? () => {
-                    if (selected) {
-                      doAction({ type: "PLAY_CARD", cardId, fromMeadow: false })
-                    } else {
-                      setSelectedMeadowIdx(null)
-                      setSelectedHandIdx(i)
-                    }
-                  } : undefined}
-                  actionLabel={selected ? "Zahrát" : undefined}
-                />
-              )
-            })}
-            {state.myHand.length === 0 && <span className={styles.dimText}>Prázdná ruka</span>}
+            )}
+            {(selectedMeadowIdx !== null || selectedHandIdx !== null) && (
+              <button
+                className={styles.cancelBtn}
+                onClick={() => { setSelectedMeadowIdx(null); setSelectedHandIdx(null) }}
+              >
+                Zrušit výběr
+              </button>
+            )}
           </div>
-          {selectedHandIdx !== null && (
-            <button className={styles.cancelBtn} onClick={() => setSelectedHandIdx(null)}>Zrušit výběr</button>
-          )}
-        </section>
-      )}
+
+        </aside>
+
+        {/* ── RIGHT AREA ── */}
+        <div className={styles.rightArea}>
+
+          {/* ── BOARD PANEL (board.png) ── */}
+          <div className={styles.boardPanel}>
+
+            {/* LEFT: Basic locations — overlaid on resource pill area */}
+            <div className={styles.boardLocsArea}>
+              {BASIC_LOCATIONS.map((loc) => {
+                const workers = workersByLoc[loc.id] ?? []
+                const myWorkerHere = workers.some((w) => w.userId === currentUserId)
+                const canPlace = canDeployWorker && !myWorkerHere
+                return (
+                  <div
+                    key={loc.id}
+                    className={`${styles.locSlot} ${canPlace ? styles.locSlotActive : ""}`}
+                    onClick={canPlace ? () => doAction({ type: "DEPLOY_WORKER", location: loc.id }) : undefined}
+                  >
+                    <span className={styles.locIcon}>{loc.icon}</span>
+                    <div className={styles.locInfo}>
+                      <div className={styles.locName}>{loc.label}</div>
+                      <div className={styles.locGain}>{loc.gain}</div>
+                    </div>
+                    <div className={styles.locWorkers}>
+                      {workers.map((w, i) => (
+                        <span
+                          key={i}
+                          className={styles.workerDot}
+                          style={{ background: PLAYER_COLOR_HEX[w.color] ?? "#888" }}
+                          title={w.username}
+                        />
+                      ))}
+                      {canPlace && <span className={styles.workerEmpty}>◎</span>}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* CENTER: MEADOW — 8 card slots */}
+            <div className={styles.meadowArea}>
+              <div className={styles.meadowLabel}>🌸 Louka ({state.meadow.length}/8)</div>
+              <div className={styles.meadowGrid}>
+                {Array.from({ length: 8 }, (_, i) => {
+                  const cardId = state.meadow[i]
+                  if (!cardId) return <div key={i} className={styles.emptySlot} />
+                  const selected = selectedMeadowIdx === i
+                  const affordable = canAfford(cardId)
+                  return (
+                    <CardTile
+                      key={`m${i}`}
+                      cardId={cardId}
+                      showEffect={selected}
+                      highlight={selected}
+                      disabled={!isMyTurn || !affordable || busy}
+                      onClick={isMyTurn && affordable ? () => {
+                        if (selected) {
+                          doAction({ type: "PLAY_CARD", cardId, fromMeadow: true, meadowIdx: i })
+                        } else {
+                          setSelectedHandIdx(null)
+                          setSelectedMeadowIdx(i)
+                        }
+                      } : undefined}
+                      actionLabel={selected ? "Zahrát z Louky" : "Vybrat"}
+                    />
+                  )
+                })}
+              </div>
+              {selectedMeadowIdx !== null && (
+                <button className={styles.cancelBtn} onClick={() => setSelectedMeadowIdx(null)}>
+                  Zrušit výběr
+                </button>
+              )}
+            </div>
+
+            {/* RIGHT: Player overview / special events */}
+            <div className={styles.boardRightArea}>
+              <div className={styles.boardRightLabel}>Mimořádné události</div>
+              <div className={styles.eventSlots}>
+                {[0, 1, 2, 3].map((i) => (
+                  <div key={i} className={styles.eventSlot}>
+                    <span className={styles.dimText}>—</span>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.boardScores}>
+                {state.players.map((p) => (
+                  <div key={p.userId} className={styles.scoreRow}>
+                    <span
+                      className={styles.scoreDot}
+                      style={{ background: PLAYER_COLOR_HEX[p.color] ?? "#888" }}
+                    />
+                    <span className={styles.scoreName}>{p.username}</span>
+                    <span className={styles.scoreVal}>🏘️{p.cityCards.length}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>{/* /boardPanel */}
+
+          {/* ── PLAYER PANEL (player.png) ── */}
+          <div className={styles.playerPanel}>
+
+            {/* HAND (top-left) */}
+            <div className={styles.handArea}>
+              <div className={styles.handLabel}>🃏 Karty na ruce ({state.myHand.length}/8)</div>
+              <div className={styles.handCards}>
+                {state.myHand.map((cardId, i) => {
+                  const selected = selectedHandIdx === i
+                  const affordable = canAfford(cardId)
+                  return (
+                    <div key={`h${i}`} className={styles.handCardWrap}>
+                      <CardTile
+                        cardId={cardId}
+                        showEffect={selected}
+                        highlight={selected}
+                        disabled={!isMyTurn || !affordable || busy}
+                        onClick={isMyTurn && affordable ? () => {
+                          if (selected) {
+                            doAction({ type: "PLAY_CARD", cardId, fromMeadow: false })
+                          } else {
+                            setSelectedMeadowIdx(null)
+                            setSelectedHandIdx(i)
+                          }
+                        } : undefined}
+                        actionLabel={selected ? "Zahrát" : undefined}
+                      />
+                    </div>
+                  )
+                })}
+                {state.myHand.length === 0 && (
+                  <span className={styles.dimText}>Prázdná ruka</span>
+                )}
+              </div>
+              {selectedHandIdx !== null && (
+                <button className={styles.cancelBtn} onClick={() => setSelectedHandIdx(null)}>
+                  Zrušit výběr
+                </button>
+              )}
+            </div>
+
+            {/* CITY (center) */}
+            {me && (
+              <div className={styles.cityArea}>
+                <div className={styles.cityLabel}>🏘️ Vyložené karty ({me.cityCards.length}/15)</div>
+                <div className={styles.cityGrid}>
+                  {me.cityCards.map((cid, i) => (
+                    <CardTile key={`c${i}`} cardId={cid} showEffect />
+                  ))}
+                  {me.cityCards.length === 0 && (
+                    <span className={styles.dimText}>Prázdné město</span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* RESOURCES (right column) */}
+            {me && (
+              <div className={styles.resourcesArea}>
+                <div className={styles.resTitle}>Suroviny</div>
+                <Resources twigs={me.twigs} resin={me.resin} pebbles={me.pebbles} berries={me.berries} />
+                {isMyTurn && (
+                  <button
+                    className={`${styles.seasonBtn} ${styles.seasonBtnCompact}`}
+                    onClick={() => doAction({ type: "PREPARE_SEASON" })}
+                    disabled={busy}
+                  >
+                    🍂 Sezóna
+                  </button>
+                )}
+              </div>
+            )}
+
+          </div>{/* /playerPanel */}
+
+        </div>{/* /rightArea */}
+
+      </div>{/* /gameLayout */}
+
     </div>
   )
 }
