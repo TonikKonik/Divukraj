@@ -105,7 +105,12 @@ function CardTile({
             {" · "}
             <span style={{ color }}>{COLOR_LABELS[card.color]}</span>
           </div>
-          <div className={styles.cardPoints}>{card.points} VP</div>
+          <div className={styles.cardPoints}>
+            <span className={styles.coinVP}>
+              <img src="/images/coin-blank.jpg" className={styles.coinImg} alt="VP" />
+              <span className={styles.coinNum}>{card.points}</span>
+            </span>
+          </div>
           <div className={styles.cardCost}>{costStr}</div>
           {showEffect && <div className={styles.cardEffect}>{card.effectText}</div>}
         </>
