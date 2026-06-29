@@ -111,17 +111,17 @@
   width: 300px;
   flex-shrink: 0;
   position: relative;
-  background: url('/images/sidebar.jpg') top center / 100% 100% no-repeat;
+  background: url('/images/sidebar-bg.png') 30% center / cover no-repeat;
   overflow: hidden;
 }
 
-/* Player rows zone — maps to PŘEHLED HRÁČŮ in sidebar.jpg */
+/* Player rows zone */
 .sidePlayersArea {
   position: absolute;
-  top: 31%;
-  left: 8%;
-  right: 4%;
-  height: 36%;
+  top: 18%;
+  left: 10%;
+  right: 6%;
+  height: 42%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -156,23 +156,26 @@
 .sidePlayerName {
   font-weight: 700;
   font-size: 0.8rem;
-  color: #3a2208;
+  color: #f5e8c8;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
 }
 
 .sidePlayerRes {
   font-size: 0.68rem;
-  color: #4a3010;
+  color: #e8d098;
   margin-top: 1px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
 }
 
 .sidePlayerMini {
   font-size: 0.62rem;
-  color: #5a4020;
-  opacity: 0.75;
+  color: #c8b070;
+  opacity: 0.85;
   margin-top: 1px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
 }
 
 .sidePlayerEmpty {
@@ -182,53 +185,56 @@
 /* STAV HRY zone */
 .sideStatusArea {
   position: absolute;
-  top: 70%;
+  top: 62%;
   left: 10%;
   right: 6%;
-  height: 11%;
+  height: 13%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .sideStatusRow {
   font-size: 0.74rem;
-  color: #3a2208;
+  color: #e8d098;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
 }
 
 .sideStatusRow strong {
-  color: #1e1005;
+  color: #ffd54f;
   font-weight: 800;
 }
 
 /* POSLEDNÍ AKCE zone */
 .sideLogArea {
   position: absolute;
-  top: 82%;
-  left: 11%;
-  right: 7%;
-  height: 10%;
+  top: 76%;
+  left: 10%;
+  right: 6%;
+  height: 13%;
   overflow-y: auto;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  gap: 3px;
 }
 
 .logPlaceholder {
   font-size: 0.68rem;
-  color: #5a4020;
+  color: #c8b070;
   font-style: italic;
-  opacity: 0.6;
+  opacity: 0.7;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
 }
 
 /* RYCHLÉ AKCE zone */
 .sideActionsArea {
   position: absolute;
-  top: 93%;
+  top: 90%;
   left: 8%;
   right: 4%;
-  height: 6%;
+  height: 8%;
   display: flex;
   flex-direction: column;
   align-items: center;
