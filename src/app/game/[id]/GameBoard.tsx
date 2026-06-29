@@ -53,13 +53,15 @@ const CARD_COLOR_HEX: Record<CardColor, string> = {
   PURPLE: "#6a1b9a",
 }
 
-const BASIC_LOCATIONS = [
-  { id: "TWIGS",       label: "Les",     icon: "🌲", gain: "🪵🪵 2 větvičky" },
-  { id: "RESIN",       label: "Bažina",  icon: "🏔️", gain: "🫧 1 pryskyřice" },
-  { id: "PEBBLES",     label: "Jeskyně", icon: "🪨", gain: "🪨 1 kamínek" },
-  { id: "BERRIES",     label: "Zahrada", icon: "🌿", gain: "🫐🫐 2 bobule" },
-  { id: "CARDS",       label: "Rybník",  icon: "🐟", gain: "🃏🃏 2 karty" },
-  { id: "CARDS_TWIGS", label: "Keře",    icon: "🌾", gain: "🃏 karta + 🪵 větvička" },
+const BASIC_LOCATIONS: { id: string; resources: {type:string;count:number}[]; closed: boolean }[] = [
+  { id: "TWIGS_3",    resources: [{type:'twigs',count:3}],                                    closed: true  },
+  { id: "TWIGS_CARD", resources: [{type:'twigs',count:2},{type:'card',count:1}],               closed: false },
+  { id: "RESIN_2",    resources: [{type:'resin',count:2}],                                    closed: true  },
+  { id: "RESIN_CARD", resources: [{type:'resin',count:1},{type:'card',count:1}],               closed: false },
+  { id: "CARDS_COIN", resources: [{type:'card',count:2},{type:'coin',count:1}],                closed: false },
+  { id: "PEBBLES",    resources: [{type:'pebbles',count:1}],                                  closed: true  },
+  { id: "BERRY_CARD", resources: [{type:'berries',count:1},{type:'card',count:1}],             closed: true  },
+  { id: "BERRIES",    resources: [{type:'berries',count:1}],                                  closed: false },
 ]
 
 // ── Card component ────────────────────────────────────────────────────────────
@@ -128,6 +130,7 @@ const RES_ICONS: Record<string, string> = {
   pebbles: '/images/icon-pebble.png',
   berries: '/images/icon-berry.png',
   card:    '/images/icon-card.png',
+  coin:    '/images/coin-blank.jpg',
 }
 const RES_LABELS: Record<string, string> = {
   twigs: 'Větvičky', resin: 'Pryskyřice', pebbles: 'Kamínky', berries: 'Bobule', card: 'Karta',
@@ -363,29 +366,34 @@ export default function GameBoard({
               {BASIC_LOCATIONS.map((loc) => {
                 const workers = workersByLoc[loc.id] ?? []
                 const myWorkerHere = workers.some((w) => w.userId === currentUserId)
-                const canPlace = canDeployWorker && !myWorkerHere
+                const isFull = loc.closed && workers.length > 0
+                const canPlace = canDeployWorker && !myWorkerHere && !isFull
                 return (
                   <div
                     key={loc.id}
-                    className={`${styles.locSlot} ${canPlace ? styles.locSlotActive : ""}`}
+                    className={`${styles.locSlot} ${canPlace ? styles.locSlotActive : ""} ${isFull ? styles.locSlotFull : ""}`}
                     onClick={canPlace ? () => doAction({ type: "DEPLOY_WORKER", location: loc.id }) : undefined}
                   >
                     <img src="/images/loc-tile.png" className={styles.locTileBg} alt="" />
-                    <span className={styles.locIcon}>{loc.icon}</span>
-                    <div className={styles.locInfo}>
-                      <div className={styles.locName}>{loc.label}</div>
-                      <div className={styles.locGain}>{loc.gain}</div>
+                    <div className={styles.locResIcons}>
+                      {loc.resources.flatMap((r) =>
+                        Array.from({length: r.count}, (_, i) => (
+                          <ResIcon key={`${r.type}-${i}`} type={r.type} sm />
+                        ))
+                      )}
                     </div>
-                    <div className={styles.locWorkers}>
-                      {workers.map((w, i) => (
-                        <span
-                          key={i}
-                          className={styles.workerDot}
-                          style={{ background: PLAYER_COLOR_HEX[w.color] ?? "#888" }}
-                          title={w.username}
-                        />
-                      ))}
-                      {canPlace && <span className={styles.workerEmpty}>◎</span>}
+                    <div className={styles.locBottom}>
+                      <span className={styles.locCapIcon}>{loc.closed ? "🔒" : "∞"}</span>
+                      <div className={styles.locAvatars}>
+                        {workers.map((w, i) => (
+                          <span
+                            key={i}
+                            className={styles.locAvatar}
+                            style={{ background: PLAYER_COLOR_HEX[w.color] ?? "#888" }}
+                            title={w.username}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )
